@@ -33,7 +33,7 @@ async function SendMensajesClientesWsp(data) {
     // Rom existe y esta abierto
     mjs = []
     mjs = romActual.mensajes
-    mjs.push(msg)
+    mjs.push(data.body)
     romActual.mensajes = []
     romActual.mensajes = mjs
 
