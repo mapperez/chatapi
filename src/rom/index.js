@@ -77,7 +77,8 @@ async function romAddMessage(msg) {
                     fecha: fechaHoy,
                     open: true,
                     mensajes: mjs,
-                    cliente: cliok
+                    cliente: cliok,
+                    estado: 'Espera'
                 }
                 // Guarda rom
 
