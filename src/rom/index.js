@@ -33,56 +33,18 @@ async function romAddMessage(msg) {
     const today = moment(new Date).tz("America/Santiago")
     const fechaHoy = today.format('YYYY-MM-DD')
 
+    // Captura solo los mensajes entrantes
+    if (msg.fromMe == false) {
 
+        //Buscar si existe rom 
+        let romActual = await rom.findOne({ chatId: msg.chatId, open: true, fecha: { $gte: fechaHoy } })
+        let mjs = [];
 
+        // Crear o agregar mensajes
+        if (!romActual) {
 
-    //Buscar si existe rom 
-    let romActual = await rom.findOne({ chatId: msg.chatId, open: true, fecha: { $gte: fechaHoy } })
-    let mjs = [];
-
-    // Crear o agregar mensajes
-    if (!romActual) {
-
-        console.log('Rom nuevo');
-        let cliok = {
-            rut: '',
-            nombre: 'Cliente Nuevo',
-            apellido: '',
-            correos: '',
-            telefonos: '',
-            direcciones: '',
-            cod_region: '',
-            provincia: '',
-            ciudad: '',
-            clasificacionFinanciera: '',
-            tipoCartera: '',
-            clasificacion: '',
-            condicionPago: '',
-            credito: '',
-            creditoUtilizado: '',
-            formaPago: '',
-            giros: '',
-            segmento: '',
-            subSegmento: ''
-        }
-
-        // Formato numero
-        let telefono = msg.author.replace('@c.us', '')
-
-        //Buscar cliente
-        let cli = await cliente.findOne({ 'telefonos.telefono': `+${telefono}` }, {
-            telefonos: {
-                $elemMatch: {
-                    telefono: `+${telefono}`
-                }
-            }
-        })
-
-
-        if (!cli) {
-
-            console.log('Cliente no existe');
-            cliok = {
+            console.log('Rom nuevo');
+            let cliok = {
                 rut: '',
                 nombre: 'Cliente Nuevo',
                 apellido: '',
@@ -104,49 +66,124 @@ async function romAddMessage(msg) {
                 subSegmento: ''
             }
 
+            // Formato numero
+            let telefono = msg.author.replace('@c.us', '')
+
+            //Buscar cliente
+            let cli = await cliente.findOne({ 'telefonos.telefono': `+${telefono}` }, {
+                telefonos: {
+                    $elemMatch: {
+                        telefono: `+${telefono}`
+                    }
+                }
+            })
+
+
+            if (!cli) {
+
+                console.log('Cliente no existe');
+                cliok = {
+                    rut: '',
+                    nombre: 'Cliente Nuevo',
+                    apellido: '',
+                    correos: '',
+                    telefonos: '',
+                    direcciones: '',
+                    cod_region: '',
+                    provincia: '',
+                    ciudad: '',
+                    clasificacionFinanciera: '',
+                    tipoCartera: '',
+                    clasificacion: '',
+                    condicionPago: '',
+                    credito: '',
+                    creditoUtilizado: '',
+                    formaPago: '',
+                    giros: '',
+                    segmento: '',
+                    subSegmento: ''
+                }
+
+            } else {
+
+                console.log('Cliente existe');
+                cliok = await cliente.findById(cli._id)
+            }
+
+            // ==================================================================================
+
+            //Crear Rom
+            mjs = []
+            mjs.push(msg)
+
+            let NewRom = {
+                    chatId: msg.chatId,
+                    fecha: fechaHoy,
+                    open: true,
+                    mensajes: mjs,
+                    cliente: cliok,
+                    estado: 'Espera'
+                }
+                // Guarda rom
+
+            rom.create(NewRom).then(async(resp, err) => {
+                if (err) {
+                    console.log('Error al crear rom');
+                }
+                console.log(`Se ha creado nuevo Rom Id: ${resp._id}`);
+
+                // Notificar conectados       
+                let roms = await rom.find({ open: true, fecha: { $gte: fechaHoy } })
+                io.emit('sendClientNew', roms)
+
+            }).catch(err => {
+                console.log('Error al crear rom');
+            })
+
+
+
+
+
         } else {
 
-            console.log('Cliente existe');
-            cliok = await cliente.findById(cli._id)
+            console.log('Rom en estado open');
+            console.log(`Rom Id: ${romActual._id}`);
+
+            // Rom existe y esta abierto
+            mjs = []
+            mjs = romActual.mensajes
+            mjs.push(msg)
+            romActual.mensajes = []
+            romActual.mensajes = mjs
+
+            let upRom = {
+                mensajes: mjs
+            }
+
+            rom.findOneAndUpdate(romActual._id, upRom, { new: true, runValidators: true }, async(err, item) => {
+                if (err) {
+                    console.log(err);
+                }
+
+                console.log(`Nuevo Mensaje Rom Id : ${item._id}`);
+                let roms = await rom.find({ open: true, fecha: { $gte: fechaHoy } })
+                io.emit('sendClientMensaje', roms)
+
+            }).catch(err => {
+                console.log('Error el actualizar');
+            })
+
+
         }
-
-        // ==================================================================================
-
-        //Crear Rom
-        mjs = []
-        mjs.push(msg)
-
-        let NewRom = {
-                chatId: msg.chatId,
-                fecha: fechaHoy,
-                open: true,
-                mensajes: mjs,
-                cliente: cliok,
-                estado: 'Espera'
-            }
-            // Guarda rom
-
-        rom.create(NewRom).then(async(resp, err) => {
-            if (err) {
-                console.log('Error al crear rom');
-            }
-            console.log(`Se ha creado nuevo Rom Id: ${resp._id}`);
-
-            // Notificar conectados       
-            let roms = await rom.find({ open: true, fecha: { $gte: fechaHoy } })
-            io.emit('sendClientNew', roms)
-
-        }).catch(err => {
-            console.log('Error al crear rom');
-        })
-
-
-
-
 
     } else {
 
-        console.log('Rom en estado open');
+        //Buscar si existe rom 
+        let romActual = await rom.findOne({ chatId: msg.chatId, open: true, fecha: { $gte: fechaHoy } })
+        let mjs = [];
+
+
+        console.log('Rom en estado open mensaje soporte');
         console.log(`Rom Id: ${romActual._id}`);
 
         // Rom existe y esta abierto
@@ -165,7 +202,7 @@ async function romAddMessage(msg) {
                 console.log(err);
             }
 
-            console.log(`Nuevo Mensaje Rom Id : ${item._id}`);
+            console.log(`Mensaje desde Soporte Rom Id : ${item._id}`);
             let roms = await rom.find({ open: true, fecha: { $gte: fechaHoy } })
             io.emit('sendClientMensaje', roms)
 
@@ -174,9 +211,9 @@ async function romAddMessage(msg) {
         })
 
 
+
+
     }
-
-
 
 
 }
