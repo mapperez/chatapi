@@ -1,4 +1,5 @@
 const { io } = require('../../index')
+const moment = require('moment-timezone');
 const { romAddMessage, SendMensajesClientesWsp, getRoms } = require('../rom')
 
 const rom = require('../model/rom.model')
@@ -7,6 +8,8 @@ const rom = require('../model/rom.model')
 io.on('connection', async(client) => {
 
 
+    const today = moment(new Date).tz("America/Santiago")
+    const fechaHoy = today.format('YYYY-MM-DD')
     let myroms = await rom.find({ open: true, fecha: { $gte: fechaHoy } });
     client.emit('sendRoms', myroms)
 
