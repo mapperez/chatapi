@@ -235,14 +235,11 @@ async function romAddMessage(msg) {
 
 }
 
-async function getRoms() {
+function getRoms() {
     //Fecha Hoy
     const today = moment(new Date).tz("America/Santiago")
     const fechaHoy = today.format('YYYY-MM-DD')
-
-    let roms = await rom.find({ open: true, fecha: { $gte: fechaHoy } })
-    console.log(roms);
-    return roms
+    return rom.find({ open: true, fecha: { $gte: fechaHoy } })
 
 }
 
