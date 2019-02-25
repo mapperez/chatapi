@@ -2,10 +2,10 @@ const { io } = require('../../index')
 const { romAddMessage, SendMensajesClientesWsp, getRoms } = require('../rom')
 
 // Modo escuchar
-io.on('connection', (client) => {
+io.on('connection', async(client) => {
 
 
-    let myroms = getRoms();
+    let myroms = await rom.find({ open: true, fecha: { $gte: fechaHoy } });
     client.emit('sendRoms', myroms)
 
 
