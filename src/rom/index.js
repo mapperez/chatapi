@@ -63,7 +63,27 @@ async function romAddMessage(msg) {
                 cliok = await cliente.findById(cli._id)
             } else {
                 console.log('Cliente no existe');
-                cliok = {}
+                cliok = {
+                    rut: '',
+                    nombre: 'Cliente Nuevo',
+                    apellido: '',
+                    correos: '',
+                    telefonos: '',
+                    direcciones: '',
+                    cod_region: '',
+                    provincia: '',
+                    ciudad: '',
+                    clasificacionFinanciera: '',
+                    tipoCartera: '',
+                    clasificacion: '',
+                    condicionPago: '',
+                    credito: '',
+                    creditoUtilizado: '',
+                    formaPago: '',
+                    giros: '',
+                    segmento: '',
+                    subSegmento: '',
+                }
             }
 
             // ==================================================================================
