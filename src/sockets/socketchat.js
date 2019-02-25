@@ -18,7 +18,6 @@ io.on('connection', (client) => {
     })
 
     client.on('sendClienteWsp', (data, callback) => {
-        console.log(data);
         SendMensajesClientesWsp(data)
     })
 

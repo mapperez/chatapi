@@ -13,12 +13,16 @@ var urlGet = "https://eu23.chat-api.com/instance15824/message?token=f3slesivjyr2
 
 async function SendMensajesClientesWsp(data) {
 
+    // Data Soporte
+    console.log("Mensaje enviado desde soporte a cliente");
+    console.log(data);
+
     // Fecha Hoy
     const today = moment(new Date).tz("America/Santiago")
     const fechaHoy = today.format('YYYY-MM-DD')
 
     // Guardar mensaje al chat Id
-    let chatID = `${data.telefono}@c.us`
+    let chatID = `${data.phone}@c.us`
     let romActual = await rom.findOne({ chatId: chatID, open: true, fecha: { $gte: fechaHoy } })
     let mjs = [];
 
