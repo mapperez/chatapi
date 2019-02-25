@@ -23,8 +23,9 @@ io.on('connection', (client) => {
 
 
     console.log('Cliente Conectado');
-    let myroms = await getRoms();
-    client.broadcast.emit('sendClientRoms', myroms);
+    client.broadcast.emit('sendClientRoms', () => {
+        return getRoms();
+    });
 
 
 
