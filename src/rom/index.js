@@ -44,7 +44,27 @@ async function romAddMessage(msg) {
         if (!romActual) {
 
             console.log('Rom nuevo');
-            let cliok = {}
+            let cliok = {
+                rut: '',
+                nombre: 'Cliente Nuevo',
+                apellido: '',
+                correos: '',
+                telefonos: '',
+                direcciones: '',
+                cod_region: '',
+                provincia: '',
+                ciudad: '',
+                clasificacionFinanciera: '',
+                tipoCartera: '',
+                clasificacion: '',
+                condicionPago: '',
+                credito: '',
+                creditoUtilizado: '',
+                formaPago: '',
+                giros: '',
+                segmento: '',
+                subSegmento: ''
+            }
 
             // Formato numero
             let telefono = msg.author.replace('@c.us', '')
@@ -58,10 +78,8 @@ async function romAddMessage(msg) {
                 }
             })
 
-            if (cli._id) {
-                console.log('Cliente existe');
-                cliok = await cliente.findById(cli._id)
-            } else {
+            if (!cli._id) {
+
                 console.log('Cliente no existe');
                 cliok = {
                     rut: '',
@@ -82,8 +100,14 @@ async function romAddMessage(msg) {
                     formaPago: '',
                     giros: '',
                     segmento: '',
-                    subSegmento: '',
+                    subSegmento: ''
                 }
+
+
+            } else {
+
+                console.log('Cliente existe');
+                cliok = await cliente.findById(cli._id)
             }
 
             // ==================================================================================
