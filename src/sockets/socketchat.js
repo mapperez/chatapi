@@ -1,5 +1,5 @@
 const { io } = require('../../index')
-const { romAddMessage, SendMensajesClientesWsp } = require('../rom')
+const { romAddMessage, SendMensajesClientesWsp, getRoms } = require('../rom')
 
 // Modo escuchar
 io.on('connection', (client) => {
@@ -20,6 +20,14 @@ io.on('connection', (client) => {
     client.on('sendClienteWsp', (data, callback) => {
         SendMensajesClientesWsp(data)
     })
+
+    client.on('connect', (data, callback) => {
+        getRoms();
+    })
+
+
+
+
 
 
 })
