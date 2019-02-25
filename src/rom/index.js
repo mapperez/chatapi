@@ -37,9 +37,15 @@ async function romAddMessage(msg) {
     if (msg.fromMe == false) {
 
         // Buscar Rom activo 
-        console.log(`Rom Actual Cliente (romAddMessage): ${msg.chatId} `);
         let romActual = await rom.findOne({ chatId: msg.chatId, open: true, fecha: { $gte: fechaHoy } })
         let mjs = [];
+
+        console.log("ChatId WebHook: " + msg.chatId);
+        console.log("ChatId : " + romActual.chatId);
+        console.log("RomID : " + romActual._id);
+
+
+
 
         // Crear o agregar mensajes
         if (!romActual) {
