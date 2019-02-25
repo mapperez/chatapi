@@ -1,6 +1,8 @@
 const { io } = require('../../index')
 const { romAddMessage, SendMensajesClientesWsp, getRoms } = require('../rom')
 
+const rom = require('../model/rom.model')
+
 // Modo escuchar
 io.on('connection', async(client) => {
 
