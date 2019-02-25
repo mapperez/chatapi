@@ -33,17 +33,18 @@ async function romAddMessage(msg) {
     const today = moment(new Date).tz("America/Santiago")
     const fechaHoy = today.format('YYYY-MM-DD')
 
-    // Captura solo los mensajes entrantes
+    // Mensajes del cliente
     if (msg.fromMe == false) {
 
-        //Buscar si existe rom 
+        // Buscar Rom activo 
+        console.log(`Rom Actual Cliente (romAddMessage): ${msg.chatId} `);
         let romActual = await rom.findOne({ chatId: msg.chatId, open: true, fecha: { $gte: fechaHoy } })
         let mjs = [];
 
         // Crear o agregar mensajes
         if (!romActual) {
 
-            console.log('Rom nuevo');
+            console.log('No existe Rom para el cliente y crea nuevo');
             let cliok = {
                 rut: '',
                 nombre: 'Cliente Nuevo',
@@ -81,7 +82,7 @@ async function romAddMessage(msg) {
 
             if (!cli) {
 
-                console.log('Cliente no existe');
+                console.log('No existe cliente asociado y asocia cliente nuevo');
                 cliok = {
                     rut: '',
                     nombre: 'Cliente Nuevo',
@@ -106,7 +107,7 @@ async function romAddMessage(msg) {
 
             } else {
 
-                console.log('Cliente existe');
+                console.log('Busca cliente por su Id');
                 cliok = await cliente.findById(cli._id)
             }
 
@@ -130,9 +131,10 @@ async function romAddMessage(msg) {
                 if (err) {
                     console.log('Error al crear rom');
                 }
-                console.log(`Se ha creado nuevo Rom Id: ${resp._id}`);
+                console.log(`Se crea nuevo rom con mensaje del cliente: ${resp._id}`);
 
-                // Notificar conectados       
+                // Notificar conectados
+                console.log('Emite rom vigentes a los clientes del chat');
                 let roms = await rom.find({ open: true, fecha: { $gte: fechaHoy } })
                 io.emit('sendClientNew', roms)
 
@@ -146,7 +148,7 @@ async function romAddMessage(msg) {
 
         } else {
 
-            console.log('Rom en estado open');
+            console.log('Existe Rom creado para cliente');
             console.log(`Rom Id: ${romActual._id}`);
 
             // Rom existe y esta abierto
@@ -165,7 +167,9 @@ async function romAddMessage(msg) {
                     console.log(err);
                 }
 
-                console.log(`Nuevo Mensaje Rom Id : ${item._id}`);
+                console.log(`Se crea nuevo mensaje al Rom Id : ${item._id}`);
+
+                console.log('Emite rom vigentes a los clientes del chat');
                 let roms = await rom.find({ open: true, fecha: { $gte: fechaHoy } })
                 io.emit('sendClientMensaje', roms)
 
@@ -178,37 +182,10 @@ async function romAddMessage(msg) {
 
     } else {
 
-        //Buscar si existe rom 
+        console.log(`Mensage generado en soporte (romAddMessage): ${msg.chatId} `);
         let romActual = await rom.findOne({ chatId: msg.chatId, open: true, fecha: { $gte: fechaHoy } })
         let mjs = [];
-
-
-        console.log('Rom en estado open mensaje soporte');
-        console.log(`Rom Id: ${romActual._id}`);
-
-        // Rom existe y esta abierto
-        mjs = []
-        mjs = romActual.mensajes
-        mjs.push(msg)
-        romActual.mensajes = []
-        romActual.mensajes = mjs
-
-        let upRom = {
-            mensajes: mjs
-        }
-
-        rom.findOneAndUpdate(romActual._id, upRom, { new: true, runValidators: true }, async(err, item) => {
-            if (err) {
-                console.log(err);
-            }
-
-            console.log(`Mensaje desde Soporte Rom Id : ${item._id}`);
-            let roms = await rom.find({ open: true, fecha: { $gte: fechaHoy } })
-            io.emit('sendClientMensaje', roms)
-
-        }).catch(err => {
-            console.log('Error el actualizar');
-        })
+        console.log(romActual);
 
 
 

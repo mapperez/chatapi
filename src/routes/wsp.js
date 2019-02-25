@@ -19,7 +19,6 @@ app.post("/api/wsp", function(req, res) {
         console.log('===CAPTURA DE MENSAJES WEBHOOK=====');
         const mensaje = req.body.messages[0];
         console.log(`CHAT ROM ID: ${ mensaje.chatId} `);
-
         romAddMessage(mensaje);
         res.send('ok');
     } catch (error) {
