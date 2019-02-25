@@ -30,6 +30,8 @@ async function SendMensajesClientesWsp(data) {
     romActual.mensajes = mjs
     let upRom = { mensajes: mjs }
 
+    console.log(upRom);
+
 
     rom.findOneAndUpdate(romActual._id, upRom, { new: true, runValidators: true }, async(err, item) => {
         if (err) { console.log(err); }
