@@ -78,7 +78,8 @@ async function romAddMessage(msg) {
                 }
             })
 
-            if (!cli._id) {
+
+            if (!cli) {
 
                 console.log('Cliente no existe');
                 cliok = {
@@ -102,7 +103,6 @@ async function romAddMessage(msg) {
                     segmento: '',
                     subSegmento: ''
                 }
-
 
             } else {
 
