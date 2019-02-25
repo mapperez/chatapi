@@ -1,0 +1,24 @@
+{
+    "name": "apiwsp",
+    "version": "1.0.0",
+    "description": "Api Midleware IA Whatsapp",
+    "main": "index.js",
+    "scripts": {
+        "start": "NODE_ENV=pro node index.js",
+        "start:dev": "NODE_ENV=dev nodemon index.js",
+        "start:win": "SET NODE_ENV=dev & nodemon index.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "body-parser": "^1.18.3",
+        "express": "^4.16.4",
+        "moment": "^2.24.0",
+        "moment-timezone": "^0.5.23",
+        "mongoose": "^5.4.14",
+        "request": "^2.88.0",
+        "socket.io": "^2.2.0",
+        "underscore": "^1.9.1"
+    }
+}
