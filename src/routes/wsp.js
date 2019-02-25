@@ -13,9 +13,16 @@ app.use(bodyParser.json())
 
 // End - Point WEBHOOK API WSP
 app.post("/api/wsp", function(req, res) {
-    const mensaje = req.body.messages[0];
-    romAddMessage(mensaje);
-    res.send(mensaje);
+
+    try {
+        const mensaje = req.body.messages[0];
+        romAddMessage(mensaje);
+        res.send('ok');
+    } catch (error) {
+
+        console.log(error);
+    }
+
 });
 
 // ==================================================
