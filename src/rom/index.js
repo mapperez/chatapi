@@ -170,11 +170,12 @@ async function romAddMessage(msg) {
 
 
             console.log(`findOneAndUpdate ID: ${romActual._id}`);
-            rom.findOneAndUpdate(romActual._id, upRom, { new: true, runValidators: true }, async(err, item) => {
+
+            rom.findOneAndUpdate({ _id: romActual._id }, upRom, { new: true, runValidators: true }, async(err, item) => {
                 if (err) {
                     console.log(err);
                 }
-                console.log(item);
+
                 console.log(`Se crea nuevo mensaje al Rom Id : ${item._id}`);
                 console.log('Emite rom vigentes a los clientes del chat');
                 let roms = await rom.find({ open: true, fecha: { $gte: fechaHoy } })
@@ -210,7 +211,7 @@ async function romAddMessage(msg) {
                 mensajes: mjs
             }
 
-            rom.findOneAndUpdate(romUpdate._id, upRom, { new: true, runValidators: true }, async(err, item) => {
+            rom.findOneAndUpdate({ _id: romUpdate._id }, upRom, { new: true, runValidators: true }, async(err, item) => {
                 if (err) {
                     console.log(err);
                 }
