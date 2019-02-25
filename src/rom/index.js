@@ -26,18 +26,49 @@ async function SendMensajesClientesWsp(data) {
     let romActual = await rom.findOne({ chatId: chatID, open: true, fecha: { $gte: fechaHoy } })
     let mjs = [];
 
-    console.log(romActual);
 
-    request({
-            url: urlGet,
-            method: "POST",
-            json: data
-        },
-        function(error, response, body) {
-            if (error) return console.error("HTTP Error", error);
-            console.log(data);
+    console.log('Existe Rom creado para cliente');
+    console.log(`Rom Id: ${romActual._id}`);
+
+    // Rom existe y esta abierto
+    mjs = []
+    mjs = romActual.mensajes
+    mjs.push(msg)
+    romActual.mensajes = []
+    romActual.mensajes = mjs
+
+    let upRom = {
+        mensajes: mjs
+    }
+
+    rom.findOneAndUpdate(romActual._id, upRom, { new: true, runValidators: true }, async(err, item) => {
+        if (err) {
+            console.log(err);
         }
-    );
+
+        console.log(`Se crea nuevo mensaje al Rom Id : ${item._id}`);
+
+        request({
+                url: urlGet,
+                method: "POST",
+                json: data
+            },
+            function(error, response, body) {
+                if (error) return console.error("HTTP Error", error);
+                console.log(data);
+            }
+        );
+
+
+    }).catch(err => {
+        console.log('Error el actualizar');
+    })
+
+
+
+
+
+
 
 
 
