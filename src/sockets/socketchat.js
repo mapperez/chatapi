@@ -22,11 +22,7 @@ io.on('connection', (client) => {
     })
 
 
-
+    console.log('Cliente Conectado');
     client.broadcast.emit('sendClientRoms', { mensaje: 'hola' });
-
-
-
-
 
 })
