@@ -21,10 +21,8 @@ io.on('connection', (client) => {
         SendMensajesClientesWsp(data)
     })
 
-
-    console.log('Cliente Conectado');
-    client.broadcast.emit('sendClientRoms', () => {
-        return getRoms();
+    client.on('sendClientRoms', () => {
+        client.broadcast.emit('sendClientMensaje', { mensaje: 'hola' });
     });
 
 
