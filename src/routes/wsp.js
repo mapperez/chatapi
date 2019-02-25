@@ -17,14 +17,13 @@ app.post("/api/wsp", function(req, res) {
     try {
 
         console.log('===CAPTURA DE MENSAJES WEBHOOK=====');
-        console.log(req.body);
         const mensaje = req.body.messages[0];
+        console.log(`CHAT ROM ID: ${ mensaje.chatId} `);
+
         romAddMessage(mensaje);
         res.send('ok');
     } catch (error) {
-
-        console.log('Solo ack');
-
+        res.send('ok');
     }
 
 });
