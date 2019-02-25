@@ -6,7 +6,7 @@ io.on('connection', (client) => {
 
 
 
-    client.emit('sendRoms', { mensaje: 'hola' })
+    client.emit('sendRoms', getRoms())
 
 
     client.on('sendClientNew', (data, callback) => {
