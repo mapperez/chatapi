@@ -21,7 +21,7 @@ io.on('connection', (client) => {
         SendMensajesClientesWsp(data)
     })
 
-    client.on('connect', (data, callback) => {
+    client.on('connection', (data, callback) => {
         console.log('cliente conectado');
         getRoms();
     })
