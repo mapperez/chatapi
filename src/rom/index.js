@@ -13,63 +13,16 @@ var urlGet = "https://eu23.chat-api.com/instance15824/message?token=f3slesivjyr2
 
 async function SendMensajesClientesWsp(data) {
 
-    // Data Soporte
-    console.log("Mensaje enviado desde soporte a cliente");
-    console.log(data);
-
-    // Fecha Hoy
-    const today = moment(new Date).tz("America/Santiago")
-    const fechaHoy = today.format('YYYY-MM-DD')
-
-    // Guardar mensaje al chat Id
-    let chatID = `${data.phone}@c.us`
-    let romActual = await rom.findOne({ chatId: chatID, open: true, fecha: { $gte: fechaHoy } })
-    let mjs = [];
-
-
-    console.log('Existe Rom creado para cliente');
-    console.log(`Rom Id: ${romActual._id}`);
-
-    // Rom existe y esta abierto
-    mjs = []
-    mjs = romActual.mensajes
-    mjs.push(data.body)
-    romActual.mensajes = []
-    romActual.mensajes = mjs
-
-    let upRom = {
-        mensajes: mjs
-    }
-
-    rom.findOneAndUpdate(romActual._id, upRom, { new: true, runValidators: true }, async(err, item) => {
-        if (err) {
-            console.log(err);
+    request({
+            url: urlGet,
+            method: "POST",
+            json: data
+        },
+        function(error, response, body) {
+            if (error) return console.error("HTTP Error", error);
+            console.log(data);
         }
-
-        console.log(`Se crea nuevo mensaje al Rom Id : ${item._id}`);
-
-        request({
-                url: urlGet,
-                method: "POST",
-                json: data
-            },
-            function(error, response, body) {
-                if (error) return console.error("HTTP Error", error);
-                console.log(data);
-            }
-        );
-
-
-    }).catch(err => {
-        console.log('Error el actualizar');
-    })
-
-
-
-
-
-
-
+    );
 
 
 }
@@ -229,9 +182,8 @@ async function romAddMessage(msg) {
 
     } else {
         // Notificar conectados
-        console.log('Emite rom vigentes a los clientes del chat');
-        let roms = await rom.find({ open: true, fecha: { $gte: fechaHoy } })
-        io.emit('sendClientNew', roms)
+        console.log('Mensaje Soporte');
+        console.log(msg);
     }
 
 
