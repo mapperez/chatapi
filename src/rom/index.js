@@ -185,7 +185,39 @@ async function romAddMessage(msg) {
         console.log(`Mensage generado en soporte (romAddMessage): ${msg.chatId} `);
         let romActual = await rom.findOne({ chatId: msg.chatId, open: true, fecha: { $gte: fechaHoy } })
         let mjs = [];
-        console.log(romActual);
+
+        if (romActual) {
+
+
+            console.log('El Rom existe en el cliente');
+            console.log(`Rom Id: ${romActual._id}`);
+
+            // Rom existe y esta abierto
+            mjs = []
+            mjs = romActual.mensajes
+            mjs.push(msg)
+            romActual.mensajes = []
+            romActual.mensajes = mjs
+
+            let upRom = {
+                mensajes: mjs
+            }
+
+            rom.findOneAndUpdate(romActual._id, upRom, { new: true, runValidators: true }, async(err, item) => {
+                if (err) {
+                    console.log(err);
+                }
+
+                console.log(`Se crea nuevo mensaje al Rom Id : ${item._id}`);
+
+                console.log('Emite rom vigentes a los clientes del chat');
+                let roms = await rom.find({ open: true, fecha: { $gte: fechaHoy } })
+                io.emit('sendClientMensaje', roms)
+
+            }).catch(err => {
+                console.log('Error el actualizar');
+            })
+        }
 
 
 
