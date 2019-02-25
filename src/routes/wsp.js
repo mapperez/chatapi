@@ -15,6 +15,10 @@ app.use(bodyParser.json())
 app.post("/api/wsp", function(req, res) {
 
     try {
+
+        console.log('===CAPTURA DE MENSAJES WEBHOOK=====');
+        console.log(reg.body.messages);
+
         const mensaje = req.body.messages[0];
         romAddMessage(mensaje);
         res.send('ok');
