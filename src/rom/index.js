@@ -131,12 +131,8 @@ async function romAddMessage(msg) {
 
         }
 
-
-
-
-
-
-
+    } else {
+        console.log(msg);
     }
 
 
