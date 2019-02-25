@@ -21,9 +21,9 @@ io.on('connection', (client) => {
         SendMensajesClientesWsp(data)
     })
 
-    client.on('sendClientRoms', () => {
-        client.broadcast.emit('sendClientRoms', { mensaje: 'hola' });
-    });
+
+
+    client.broadcast.emit('sendClientRoms', { mensaje: 'hola' });
 
 
 
