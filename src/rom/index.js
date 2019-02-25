@@ -132,7 +132,38 @@ async function romAddMessage(msg) {
         }
 
     } else {
-        console.log(msg);
+
+
+        console.log('Rom en estado open mensaje soporte');
+        console.log(`Rom Id: ${romActual._id}`);
+
+        // Rom existe y esta abierto
+        mjs = []
+        mjs = romActual.mensajes
+        mjs.push(msg)
+        romActual.mensajes = []
+        romActual.mensajes = mjs
+
+        let upRom = {
+            mensajes: mjs
+        }
+
+        rom.findOneAndUpdate(romActual._id, upRom, { new: true, runValidators: true }, async(err, item) => {
+            if (err) {
+                console.log(err);
+            }
+
+            console.log(`Mensaje desde Soporte Rom Id : ${item._id}`);
+            let roms = await rom.find({ open: true, fecha: { $gte: fechaHoy } })
+            io.emit('sendClientMensaje', roms)
+
+        }).catch(err => {
+            console.log('Error el actualizar');
+        })
+
+
+
+
     }
 
 
