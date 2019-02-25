@@ -134,6 +134,10 @@ async function romAddMessage(msg) {
 
     } else {
 
+        //Buscar si existe rom 
+        let romActual = await rom.findOne({ chatId: msg.chatId, open: true, fecha: { $gte: fechaHoy } })
+        let mjs = [];
+
 
         console.log('Rom en estado open mensaje soporte');
         console.log(`Rom Id: ${romActual._id}`);
