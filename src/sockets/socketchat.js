@@ -22,6 +22,7 @@ io.on('connection', (client) => {
     })
 
     client.on('connect', (data, callback) => {
+        console.log('cliente conectado');
         getRoms();
     })
 
