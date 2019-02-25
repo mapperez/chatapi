@@ -22,7 +22,7 @@ io.on('connection', (client) => {
     })
 
     client.on('sendClientRoms', () => {
-        client.broadcast.emit('sendClientMensaje', { mensaje: 'hola' });
+        client.broadcast.emit('sendClientRoms', { mensaje: 'hola' });
     });
 
 
