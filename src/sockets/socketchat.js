@@ -4,10 +4,10 @@ const { romAddMessage, SendMensajesClientesWsp, getRoms } = require('../rom')
 // Modo escuchar
 io.on('connection', (client) => {
 
-    /**
-     * Metodo       :   sendClientNew
-     * Descripcion  :   Enviar todos los clientes nuevos conectados al soporte sin atencion
-     */
+
+
+    client.emit('sendRoms', { mensaje: 'hola' })
+
 
     client.on('sendClientNew', (data, callback) => {
         client.broadcast.emit('sendClientNew', data);
@@ -16,13 +16,8 @@ io.on('connection', (client) => {
     client.on('sendClientMensaje', (data, callback) => {
         client.broadcast.emit('sendClientMensaje', data);
     })
-
     client.on('sendClienteWsp', (data, callback) => {
         SendMensajesClientesWsp(data)
     })
-
-
-    console.log('Cliente Conectado');
-    client.broadcast.emit('sendClientRoms', { mensaje: 'hola' });
 
 })
