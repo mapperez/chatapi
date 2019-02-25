@@ -20,20 +20,20 @@ process.env.PORT = process.env.PORT || 4000
  */
 let urlMongo;
 let urlMongo2;
-let dbName = 'ChatCentral'
-let dbName2 = 'Implenet'
-let hosdev = 'localhost'
-let hospro = '192.168.211.77'
+
 
 if (process.env.NODE_ENV === 'dev') {
     console.log("NODE DEVELOPER");
-    urlMongo = `mongodb://${hosdev}:27017/${dbName}`
-    urlMongo2 = `mongodb://${hosdev}:27017/${dbName2}`
+    //urlMongo = `mongodb://localhost:27017/ChatCentral`
+    //urlMongo2 = `mongodb://localhost:27017/Implenet`
+
+    urlMongo = `mongodb://mapperez:3Yaxa9ef@ds149875.mlab.com:49875/chatcentral`
+    urlMongo2 = `mongodb://mapperez:3Yaxa9ef@ds149875.mlab.com:49875/implenet`
 
 } else {
     console.log("NODE PRODUCCTION");
-    urlMongo = `mongodb://${hospro}:27017/${dbName}`
-    urlMongo2 = `mongodb://${hosdev}:27017/${dbName2}`
+    urlMongo = `mongodb://mapperez:3Yaxa9ef@ds149875.mlab.com:49875/chatcentral`
+    urlMongo2 = `mongodb://mapperez:3Yaxa9ef@ds149875.mlab.com:49875/implenet`
 
 }
 
