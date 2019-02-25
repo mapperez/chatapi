@@ -26,7 +26,7 @@ async function SendMensajesClientesWsp(data) {
     let romActual = await rom.findOne({ chatId: chatID, open: true, fecha: { $gte: fechaHoy } })
     let mjs = [];
 
-    console.log(chatID);
+    console.log(romActual);
 
     request({
             url: urlGet,
