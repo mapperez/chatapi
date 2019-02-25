@@ -5,10 +5,8 @@ const { romAddMessage, SendMensajesClientesWsp, getRoms } = require('../rom')
 io.on('connection', (client) => {
 
 
-
-    client.emit('sendRoms', () => {
-        return getRoms();
-    })
+    let myroms = getRoms();
+    client.emit('sendRoms', myroms)
 
 
     client.on('sendClientNew', (data, callback) => {
