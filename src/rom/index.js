@@ -183,8 +183,11 @@ async function romAddMessage(msg) {
     } else {
         // Notificar conectados
         console.log('Mensaje Soporte');
-        console.log("ChatId : " + msg.chatId);
+
         let romUpdate = await rom.findOne({ chatId: msg.chatId, open: true, fecha: { $gte: fechaHoy } })
+        console.log("ChatId WebHook: " + msg.chatId);
+        console.log("ChatId : " + romUpdate.chatId);
+        console.log("RomID : " + romUpdate._id);
 
 
         if (romUpdate) {
