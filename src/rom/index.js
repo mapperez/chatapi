@@ -241,7 +241,7 @@ async function getRoms() {
     const fechaHoy = today.format('YYYY-MM-DD')
 
     let roms = await rom.find({ open: true, fecha: { $gte: fechaHoy } })
-
+    console.log(roms);
     return roms
 
 }
