@@ -28,6 +28,7 @@ async function SendMensajesClientesWsp(data) {
 }
 
 async function romAddMessage(msg) {
+    console.log(msg);
 
     //Fecha Hoy
     const today = moment(new Date).tz("America/Santiago")
@@ -35,6 +36,8 @@ async function romAddMessage(msg) {
 
     // Mensajes del cliente
     if (msg.fromMe == false) {
+
+        let clienteSinNombre = msg.author.replace('@c.us', '')
 
         // Buscar Rom activo 
         let romActual = await rom.findOne({ chatId: msg.chatId, open: true, fecha: { $gte: fechaHoy } })
@@ -45,7 +48,7 @@ async function romAddMessage(msg) {
             console.log('No existe Rom para el cliente y crea nuevo');
             let cliok = {
                 rut: '',
-                nombre: 'Cliente Nuevo',
+                nombre: clienteSinNombre,
                 apellido: '',
                 correos: '',
                 telefonos: '',
@@ -83,7 +86,7 @@ async function romAddMessage(msg) {
                 console.log('No existe cliente asociado y asocia cliente nuevo');
                 cliok = {
                     rut: '',
-                    nombre: 'Cliente Nuevo',
+                    nombre: clienteSinNombre,
                     apellido: '',
                     correos: '',
                     telefonos: '',
@@ -159,6 +162,7 @@ async function romAddMessage(msg) {
             romActual.mensajes = mjs
 
             let upRom = {
+            
                 mensajes: mjs
             }
 
