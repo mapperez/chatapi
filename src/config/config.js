@@ -26,7 +26,6 @@ if (process.env.NODE_ENV === 'dev') {
     console.log("NODE DEVELOPER");
     //urlMongo = `mongodb://localhost:27017/ChatCentral`
     //urlMongo2 = `mongodb://localhost:27017/Implenet`
-
     urlMongo = `mongodb://mapperez:3Yaxa9ef@ds149875.mlab.com:49875/chatcentral`
     urlMongo2 = `mongodb://mapperez:3Yaxa9ef@ds149875.mlab.com:49875/implenet`
 
@@ -34,7 +33,6 @@ if (process.env.NODE_ENV === 'dev') {
     console.log("NODE PRODUCCTION");
     urlMongo = `mongodb://mapperez:3Yaxa9ef@ds149875.mlab.com:49875/chatcentral`
     urlMongo2 = `mongodb://mapperez:3Yaxa9ef@ds149875.mlab.com:49875/implenet`
-
 }
 
 process.env.urlMongo = urlMongo;
