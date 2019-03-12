@@ -136,7 +136,14 @@ async function romAddMessage(msg) {
 
                 // Notificar conectados
                 console.log('Emite rom vigentes a los clientes del chat');
-                let roms = await rom.find({ open: true, fecha: { $gte: fechaHoy } })
+                let roms = await rom.find({ 
+                    open: true,
+                    $or: [{
+                        estado: "Espera"
+                    }, {
+                        estado: "Activo"
+                    }] 
+                 })
                 io.emit('sendClientNew', roms)
 
             }).catch(err => {
@@ -238,7 +245,6 @@ function getRoms() {
     const today = moment(new Date).tz("America/Santiago")
     const fechaHoy = today.format('YYYY-MM-DD')
     return rom.find({ open: true, fecha: { $gte: fechaHoy } })
-
 }
 
 
