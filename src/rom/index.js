@@ -183,7 +183,14 @@ async function romAddMessage(msg) {
 
                 console.log(`Se crea nuevo mensaje al Rom Id : ${item._id}`);
                 console.log('Emite rom vigentes a los clientes del chat');
-                let roms = await rom.find({ open: true, fecha: { $gte: fechaHoy } })
+                let roms = await rom.find({ 
+                    open: true,
+                    $or: [{
+                        estado: "Espera"
+                    }, {
+                        estado: "Activo"
+                    }]
+                 })
                 io.emit('sendClientMensaje', roms)
 
             }).catch(err => {
@@ -223,7 +230,14 @@ async function romAddMessage(msg) {
 
                 console.log(`Se crea nuevo mensaje al Rom Id : ${item._id}`);
                 console.log('Emite rom vigentes a los clientes del chat');
-                let roms = await rom.find({ open: true, fecha: { $gte: fechaHoy } })
+                let roms = await rom.find({ 
+                    open: true,
+                    $or: [{
+                        estado: "Espera"
+                    }, {
+                        estado: "Activo"
+                    }]
+                 })
                 io.emit('sendClientMensaje', roms)
 
             }).catch(err => {
