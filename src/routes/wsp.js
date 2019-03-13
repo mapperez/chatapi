@@ -45,7 +45,7 @@ app.get('/api/historial', function (req, res) {
         console.log(docs)
         res.send(docs)
 
-    });
+    }).sort({updatedAt: -1});;
 })
 
 
@@ -67,8 +67,7 @@ app.get('/api/conversaciones_activas', function (req, res) {
             // docs is an array
             console.log(docs2)
             res.send(docs2)
-
-        }).sort({fecha: -1});
+        }).sort({updatedAt: -1});
 });
 
 // CAMBIA ESTADO A CONVERSACION

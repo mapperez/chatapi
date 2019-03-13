@@ -46,7 +46,8 @@ async function romAddMessage(msg) {
             }, {
                 estado: "Activo"
             }] 
-         })
+         }).sort({updatedAt: -1});
+
         let mjs = [];
         // Crear o agregar mensajes
         if (!romActual) {
@@ -149,7 +150,8 @@ async function romAddMessage(msg) {
                     }, {
                         estado: "Activo"
                     }] 
-                 })
+                 }).sort({updatedAt: -1});
+
                 io.emit('sendClientNew', roms)
 
             }).catch(err => {
@@ -196,7 +198,7 @@ async function romAddMessage(msg) {
                     }, {
                         estado: "Activo"
                     }]
-                 })
+                 }).sort({updatedAt: -1});
                 io.emit('sendClientMensaje', roms)
 
             }).catch(err => {
@@ -243,7 +245,7 @@ async function romAddMessage(msg) {
                     }, {
                         estado: "Activo"
                     }]
-                 })
+                 }).sort({updatedAt: -1});
                 io.emit('sendClientMensaje', roms)
 
             }).catch(err => {
