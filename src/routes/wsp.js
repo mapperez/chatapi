@@ -52,61 +52,34 @@ app.get('/api/historial', function (req, res) {
 // TRAE LAS CONVERSACIONES ACTIVA
 app.get('/api/conversaciones_activas', function (req, res) {
 
+   
+
     rom.find({
-        open: true,
-        $or: [{
-            estado: "Espera"
-        }, {
-            estado: "Activo"
-        }]       
-    }, function (err2, docs2) {
-        // docs is an array
-        console.log(docs2)
-        res.send(docs2)
+            open: true,
+            $or: [{
+                estado: "Espera"
+            }, {
+                estado: "Activo"
+            }],
+            
+        },
+        function (err2, docs2) {
+            // docs is an array
+            console.log(docs2)
+            res.send(docs2)
 
-    });
+        }).sort({fecha: -1});
+});
 
+// CAMBIA ESTADO A CONVERSACION
+app.post("/api/conversacion/", function (req, res) {
 
-    // rom.aggregate([{
-    //         $match: {
-    //             open: true,
-    //             $or: [{
-    //                 estado: "Espera"
-    //             }, {
-    //                 estado: "Activo"
-    //             }]
-    //         }
-    //     },       
-    //     {
-    //         $group: {
-    //             _id: '$chatId', // grouping key - group by field district 
-    //         }
-    //     }
-    // ], function (err, docs) {
+    try {
+        console.log(req.body)
 
-    //    var ids = Object.keys(docs).map(function(key){ console.log(key); return docs[key]["_id"];});
-    //      console.log(ids);
-
-    //     rom.find({
-    //         open: true,
-    //         // chatId: chatId,
-    //         chatId : { $in :ids}
-    //     }, function (err2, docs2) {
-    //         // docs is an array
-    //         console.log(docs2)
-    //         res.send(docs2)
-
-    //     });
-
-
-
-
-    // docs is an array
-    // console.log(docs)
-    // res.send(docs)
-
-    // });
-
+    } catch (error) {
+        res.send('ok');
+    }
 
 });
 

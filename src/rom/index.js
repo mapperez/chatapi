@@ -40,7 +40,13 @@ async function romAddMessage(msg) {
         let clienteSinNombre = msg.author.replace('@c.us', '')
 
         // Buscar Rom activo 
-        let romActual = await rom.findOne({ chatId: msg.chatId, open: true, fecha: { $gte: fechaHoy } })
+        let romActual = await rom.findOne({ chatId: msg.chatId, open: true, 
+            $or: [{
+                estado: "Espera"
+            }, {
+                estado: "Activo"
+            }] 
+         })
         let mjs = [];
         // Crear o agregar mensajes
         if (!romActual) {
