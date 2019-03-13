@@ -39,12 +39,12 @@ async function romAddMessage(msg) {
 
         let clienteSinNombre = msg.author.replace('@c.us', '')
 
-        // Buscar Rom activo 
+        // Buscar Rom Activa 
         let romActual = await rom.findOne({ chatId: msg.chatId, open: true, 
             $or: [{
                 estado: "Espera"
             }, {
-                estado: "Activo"
+                estado: "Activa"
             }] 
          }).sort({updatedAt: -1});
 
@@ -148,7 +148,7 @@ async function romAddMessage(msg) {
                     $or: [{
                         estado: "Espera"
                     }, {
-                        estado: "Activo"
+                        estado: "Activa"
                     }] 
                  }).sort({updatedAt: -1});
 
@@ -196,7 +196,7 @@ async function romAddMessage(msg) {
                     $or: [{
                         estado: "Espera"
                     }, {
-                        estado: "Activo"
+                        estado: "Activa"
                     }]
                  }).sort({updatedAt: -1});
                 io.emit('sendClientMensaje', roms)
@@ -217,7 +217,7 @@ async function romAddMessage(msg) {
             $or: [{
             estado: "Espera"
             }, {
-                estado: "Activo"
+                estado: "Activa"
             }]
          });
         console.log("ChatId WebHook: " + msg.chatId);
@@ -249,7 +249,7 @@ async function romAddMessage(msg) {
                     $or: [{
                         estado: "Espera"
                     }, {
-                        estado: "Activo"
+                        estado: "Activa"
                     }]
                  }).sort({updatedAt: -1});
                 io.emit('sendClientMensaje', roms)

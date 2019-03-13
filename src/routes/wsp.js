@@ -1,4 +1,5 @@
 const express = require('express')
+var cors = require('cors')
 const _ = require('underscore')
 const {
     romAddMessage
@@ -11,6 +12,7 @@ const rom = require('../model/rom.model')
 const app = express();
 const bodyParser = require('body-parser')
 app.use(bodyParser.json())
+app.use(cors())
 
 
 
@@ -71,14 +73,74 @@ app.get('/api/conversaciones_activas', function (req, res) {
 });
 
 // CAMBIA ESTADO A CONVERSACION
-app.post("/api/conversacion/", function (req, res) {
+app.post("/api/conversaciones", function (req, res) {
 
-    try {
-        console.log(req.body)
-
-    } catch (error) {
-        res.send('ok');
+ 
+    const updateRom = {
+        estado: "Activo"
     }
+
+    rom.findOneAndUpdate({ _id: req.body._id }, updateRom, { runValidators: true }, async(err, item) => {
+        if (err) {
+            var obj = {
+                error: true,
+                msg: "ocurrio un error al iniciar la conversación",
+                detalleError: error
+            }
+            res.json(obj);
+        }else{
+
+            rom.find({
+                    open: true,
+                    $or: [{
+                        estado: "Espera"
+                    }, {
+                        estado: "Activo"
+                    }],
+
+                },
+                function (err2, docs2) {
+                  
+                    res.send(docs2)
+                }).sort({
+                updatedAt: -1
+            });
+
+        }
+
+    }).catch(err => {
+        console.log('Error el actualizar');
+    })
+
+    console.log(req.body)
+    
+
+    // try {
+
+    //     const updateRom = {
+    //         estado: "Activa"
+    //     }
+
+    //     rom.findOneAndUpdate({ _id: req.body._id }, updateRom, { runValidators: true }, async(err, item) => {
+    //         if (err) {
+    //             console.log(err);
+    //         }
+
+
+    //     }).catch(err => {
+    //         console.log('Error el actualizar');
+    //     })
+
+    //     console.log(req.body)
+
+    // } catch (error) {
+    //     var obj = {
+    //         error: true,
+    //         msg: "ocurrio un error al iniciar la conversación",
+    //         detalleError: error
+    //     }
+    //     res.json(obj);
+    // }
 
 });
 
