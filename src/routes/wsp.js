@@ -61,7 +61,7 @@ app.get('/api/conversaciones_activas', function (req, res) {
             $or: [{
                 estado: "Espera"
             }, {
-                estado: "Activo"
+                estado: "Activa"
             }],
             
         },
@@ -77,7 +77,7 @@ app.post("/api/conversaciones", function (req, res) {
 
  
     const updateRom = {
-        estado: "Activo"
+        estado: "Activa"
     }
 
     rom.findOneAndUpdate({ _id: req.body._id }, updateRom, { runValidators: true }, async(err, item) => {
@@ -95,13 +95,19 @@ app.post("/api/conversaciones", function (req, res) {
                     $or: [{
                         estado: "Espera"
                     }, {
-                        estado: "Activo"
+                        estado: "Activa"
                     }],
 
                 },
                 function (err2, docs2) {
+
+                    var obj = {
+                        error: false,
+                        msg: "ocurrio un error al iniciar la conversación",
+                        data: docs2
+                    }
+                    res.json(obj);
                   
-                    res.send(docs2)
                 }).sort({
                 updatedAt: -1
             });
@@ -111,36 +117,6 @@ app.post("/api/conversaciones", function (req, res) {
     }).catch(err => {
         console.log('Error el actualizar');
     })
-
-    console.log(req.body)
-    
-
-    // try {
-
-    //     const updateRom = {
-    //         estado: "Activa"
-    //     }
-
-    //     rom.findOneAndUpdate({ _id: req.body._id }, updateRom, { runValidators: true }, async(err, item) => {
-    //         if (err) {
-    //             console.log(err);
-    //         }
-
-
-    //     }).catch(err => {
-    //         console.log('Error el actualizar');
-    //     })
-
-    //     console.log(req.body)
-
-    // } catch (error) {
-    //     var obj = {
-    //         error: true,
-    //         msg: "ocurrio un error al iniciar la conversación",
-    //         detalleError: error
-    //     }
-    //     res.json(obj);
-    // }
 
 });
 
