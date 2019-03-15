@@ -29,7 +29,9 @@ app.use(bodyParser.json());
 
 
 // Inicializar socketIO
-module.exports.io = socketIO(server);
+module.exports.io = socketIO(server,{
+    transports: ['websocket']
+  });
 require('./src/sockets/socketchat')
 
 

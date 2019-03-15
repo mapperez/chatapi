@@ -28,7 +28,7 @@ async function SendMensajesClientesWsp(data) {
 }
 
 async function romAddMessage(msg) {
-  
+    console.log(msg);
 
     //Fecha Hoy
     const today = moment(new Date).tz("America/Santiago")
