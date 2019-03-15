@@ -19,6 +19,7 @@ async function SendMensajesClientesWsp(data) {
             json: data
         },
         function(error, response, body) {
+            console.log("entra a SendMensajesClientesWsp");
             if (error) return console.error("HTTP Error", error);
             console.log(data);
         }
@@ -28,7 +29,7 @@ async function SendMensajesClientesWsp(data) {
 }
 
 async function romAddMessage(msg) {
-    console.log(msg);
+  
 
     //Fecha Hoy
     const today = moment(new Date).tz("America/Santiago")
@@ -252,7 +253,11 @@ async function romAddMessage(msg) {
                         estado: "Activa"
                     }]
                  }).sort({updatedAt: -1});
+                 console.log("CONVERSACIONES A EMITIR")
+                 console.log(roms)
                 io.emit('sendClientMensaje', roms)
+                console.log("FINR CONVERSACIONES A EMITIR")
+
 
             }).catch(err => {
                 console.log('Error el actualizar');
