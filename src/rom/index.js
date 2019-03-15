@@ -20,6 +20,11 @@ async function SendMensajesClientesWsp(data) {
         },
         function(error, response, body) {
             console.log("entra a SendMensajesClientesWsp");
+            console.log(response);
+            console.log(body);
+            console.log(error);
+
+
             if (error) return console.error("HTTP Error", error);
             console.log(data);
         }
