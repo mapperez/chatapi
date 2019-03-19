@@ -7,7 +7,9 @@ const RomSchema = new Schema({
     open: { type: Boolean, default: true },
     mensajes: { type: Schema.Types.Mixed },
     cliente: { type: Schema.Types.Mixed },
-    estado: { type: String }
+    estado: { type: String },
+    tipoConversacion : { type: String},
+    observacionConversacion: {type :String}
 
 }, { timestamps: true });
 module.exports = connA.model('rom', RomSchema);

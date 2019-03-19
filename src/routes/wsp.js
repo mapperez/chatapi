@@ -5,6 +5,7 @@ const {
     romAddMessage
 } = require('../rom')
 const rom = require('../model/rom.model')
+const cliente =  require("../model/cliente.model")
 
 
 
@@ -41,7 +42,8 @@ app.get('/api/historial', function (req, res) {
     const chatId = req.param('chatId');
     rom.find({
         open: true,
-        chatId: chatId
+        chatId: chatId,
+        estado:"Finalizada"
     }, function (err, docs) {
         // docs is an array
         console.log(docs)
@@ -74,13 +76,12 @@ app.get('/api/conversaciones_activas', function (req, res) {
 
 // CAMBIA ESTADO A CONVERSACION
 app.post("/api/conversaciones", function (req, res) {
-
- 
+   
     const updateRom = {
         estado: "Activa"
     }
-
     rom.findOneAndUpdate({ _id: req.body._id }, updateRom, { runValidators: true }, async(err, item) => {
+        console.log(item);
         if (err) {
             var obj = {
                 error: true,
@@ -90,7 +91,7 @@ app.post("/api/conversaciones", function (req, res) {
             res.json(obj);
         }else{
 
-            rom.find({
+          rom.find({
                     open: true,
                     $or: [{
                         estado: "Espera"
@@ -119,6 +120,119 @@ app.post("/api/conversaciones", function (req, res) {
     })
 
 });
+
+
+// FINALIZA CONVERSACION
+app.post("/api/finaliza_conversacion", function (req, res) {
+ 
+   
+    const updateRom = {
+        estado: "Finalizada",
+        observacionConversacion: req.body.observacionConversacion,
+        tipoConversacion: req.body.tipoConversacion
+
+    }
+    rom.findOneAndUpdate({ _id: req.body.id }, updateRom, { runValidators: true }, async(err, item) => {
+        console.log(item);
+        if (err) {
+            var obj = {
+                error: true,
+                msg: "ocurrio un error al iniciar la conversación",
+                detalleError: error
+            }
+            res.json(obj);
+        }else{
+
+          rom.find({
+                    open: true,
+                    $or: [{
+                        estado: "Espera"
+                    }, {
+                        estado: "Activa"
+                    }],
+
+                },
+                function (err2, docs2) {
+
+                    var obj = {
+                        error: false,
+                        msg: "Actualizacion correcta",
+                        data: docs2
+                    }
+                    res.json(obj);
+                  
+                }).sort({
+                updatedAt: -1
+            });
+
+        }
+
+    }).catch(err => {
+        console.log('Error el actualizar');
+    })
+
+});
+
+app.get('/api/getCliente', async (req, res, next) => {
+    try {
+        const chatId = req.param('chatId');
+        const telefono = chatId.replace('@c.us', '')
+
+
+
+      const dataCliente = await  cliente.findOne({ 'telefonos.telefono': `+${telefono}` }, {
+                    //  telefonos: {
+                    //      $elemMatch: {
+                    //          telefono: `+${telefono}`
+                    //      }
+                    //  }
+                 })
+
+              
+                //  console.log(dataCliente)
+      res.json(dataCliente);
+
+    } catch (e) {     
+      next(e) 
+    }
+  })
+
+
+//CONSULTA POR DETALLE DE CLIENTE
+// app.get('/api/getCliente', function (req, res) {
+
+   
+//      // Formato numero
+//      let telefono = msg.author.replace('@c.us', '')
+
+//      //Buscar cliente
+//      cliente.findOne({ 'telefonos.telefono': `+${telefono}` }, {
+//          telefonos: {
+//              $elemMatch: {
+//                  telefono: `+${telefono}`
+//              }
+//          }
+//      },function(error, data){
+//          console.log(data);
+
+//      })
+
+//     rom.find({
+//             open: true,
+//             $or: [{
+//                 estado: "Espera"
+//             }, {
+//                 estado: "Activa"
+//             }],
+            
+//         },
+//         function (err2, docs2) {
+//             // docs is an array
+//             console.log(docs2)
+//             res.send(docs2)
+//         }).sort({updatedAt: -1});
+// });
+
 
 
 module.exports = app;

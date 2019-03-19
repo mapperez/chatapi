@@ -1,4 +1,4 @@
-const { connA, connB } = require('../mongodb/dbconec');
+const { connA, connB, connImplementos } = require('../mongodb/dbconec');
 const Schema = connB.Schema;
 
 const ClienteSchema = new Schema({
