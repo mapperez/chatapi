@@ -1,3 +1,7 @@
+const path = require("path");
+
+let ruta = __dirname + `/agenteEjemplo-e22f614d71bd.json`;
+
 /**
  * Ambiente de Ejecucion
  */
@@ -11,6 +15,11 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
 
 process.env.PORT = process.env.PORT || 4000
 
+
+/**
+ * Google Acount
+ */
+process.env.GOOGLE_APPLICATION_CREDENTIALS = ruta;
 
 
 

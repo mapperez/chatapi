@@ -21,7 +21,6 @@ app.use(cors())
 app.post("/api/wsp", function (req, res) {
 
     try {
-
         console.log('===CAPTURA DE MENSAJES WEBHOOK=====');
         const mensaje = req.body.messages[0];
         console.log(`CHAT ROM ID: ${ mensaje.chatId} `);
@@ -54,9 +53,7 @@ app.get('/api/historial', function (req, res) {
 
 
 // TRAE LAS CONVERSACIONES ACTIVA
-app.get('/api/conversaciones_activas', function (req, res) {
-
-   
+app.get('/api/conversaciones_activas', function (req, res) {   
 
     rom.find({
             open: true,
@@ -67,6 +64,34 @@ app.get('/api/conversaciones_activas', function (req, res) {
             }],
             
         },
+        function (err2, docs2) {
+            // docs is an array
+            console.log(docs2)
+            res.send(docs2)
+        }).sort({updatedAt: -1});
+});
+
+
+
+// TRAE LAS CONVERSACIONES ACTIVA
+app.get('/api/conversaciones_finalizadas', function (req, res) {
+
+    const aggregatorOpts = [
+    { $match: { "estado": "Finalizada" } },
+    { $sort: { "updatedAt": -1 } },
+    {        
+        $group: {
+            _id: "$chatId",
+            chatId: { "$first": "$chatId" },
+
+            cliente: { "$first": "$cliente" },
+            mensajes: { "$first": "$mensajes" },
+            count: { $sum: 1 },            
+        }       
+    },
+    ];
+      rom.aggregate(aggregatorOpts
+        ,
         function (err2, docs2) {
             // docs is an array
             console.log(docs2)
@@ -196,43 +221,6 @@ app.get('/api/getCliente', async (req, res, next) => {
       next(e) 
     }
   })
-
-
-//CONSULTA POR DETALLE DE CLIENTE
-// app.get('/api/getCliente', function (req, res) {
-
-   
-//      // Formato numero
-//      let telefono = msg.author.replace('@c.us', '')
-
-//      //Buscar cliente
-//      cliente.findOne({ 'telefonos.telefono': `+${telefono}` }, {
-//          telefonos: {
-//              $elemMatch: {
-//                  telefono: `+${telefono}`
-//              }
-//          }
-//      },function(error, data){
-//          console.log(data);
-
-//      })
-
-//     rom.find({
-//             open: true,
-//             $or: [{
-//                 estado: "Espera"
-//             }, {
-//                 estado: "Activa"
-//             }],
-            
-//         },
-//         function (err2, docs2) {
-//             // docs is an array
-//             console.log(docs2)
-//             res.send(docs2)
-//         }).sort({updatedAt: -1});
-// });
-
 
 
 module.exports = app;
