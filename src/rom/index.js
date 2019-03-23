@@ -36,8 +36,27 @@ async function romAddMessage(msg) {
 
     // Mensajes del cliente
     if (msg.fromMe == false) {
+        console.log('1. MENSAJE DE CLIENTE');
+        gestionaMensajeCliente(msg);
+    } else {
+        console.log('1. MENSAJE DE EJECUTIVO');
+        gestionaMensajeCrmChat(msg);
+    }
 
-        let clienteSinNombre = msg.author.replace('@c.us', '')
+
+}
+
+function getRoms() {
+    //Fecha Hoy
+    const today = moment(new Date).tz("America/Santiago")
+    const fechaHoy = today.format('YYYY-MM-DD')
+    return rom.find({ open: true, fecha: { $gte: fechaHoy } })
+}
+
+async function gestionaMensajeCliente(msg){
+    const today = moment(new Date).tz("America/Santiago")
+    const fechaHoy = today.format('YYYY-MM-DD')
+    let clienteSinNombre = msg.author.replace('@c.us', '')
 
         // Buscar Rom Activa 
         let romActual = await rom.findOne({ chatId: msg.chatId, open: true, 
@@ -48,78 +67,19 @@ async function romAddMessage(msg) {
             }] 
          }).sort({updatedAt: -1});
 
+
         let mjs = [];
-        // Crear o agregar mensajes
+
+        console.log("ROM ACTUAL")
+        console.log(romActual);
+
+
+        // SE VERIFICA SI EXISTE LA CONVERSACION O LA CREA
         if (!romActual) {
 
-            console.log('No existe Rom para el cliente y crea nuevo');
-            let cliok = {
-                rut: '',
-                nombre: clienteSinNombre,
-                apellido: '',
-                correos: '',
-                telefonos: '',
-                direcciones: '',
-                cod_region: '',
-                provincia: '',
-                ciudad: '',
-                clasificacionFinanciera: '',
-                tipoCartera: '',
-                clasificacion: '',
-                condicionPago: '',
-                credito: '',
-                creditoUtilizado: '',
-                formaPago: '',
-                giros: '',
-                segmento: '',
-                subSegmento: ''
-            }
-
-            // Formato numero
-            let telefono = msg.author.replace('@c.us', '')
-
-            //Buscar cliente
-            let cli = await cliente.findOne({ 'telefonos.telefono': `+${telefono}` }, {
-                telefonos: {
-                    $elemMatch: {
-                        telefono: `+${telefono}`
-                    }
-                }
-            })
-
-
-            if (!cli) {
-
-                console.log('No existe cliente asociado y asocia cliente nuevo');
-                cliok = {
-                    rut: '',
-                    nombre: clienteSinNombre,
-                    apellido: '',
-                    correos: '',
-                    telefonos: '',
-                    direcciones: '',
-                    cod_region: '',
-                    provincia: '',
-                    ciudad: '',
-                    clasificacionFinanciera: '',
-                    tipoCartera: '',
-                    clasificacion: '',
-                    condicionPago: '',
-                    credito: '',
-                    creditoUtilizado: '',
-                    formaPago: '',
-                    giros: '',
-                    segmento: '',
-                    subSegmento: ''
-                }
-
-            } else {
-
-                console.log('Busca cliente por su Id');
-                cliok = await cliente.findById(cli._id)
-            }
-
-            // ==================================================================================
+            const cliok =  getDatosCliente()
+            console.log('GET DATOS CLIENTES');
+            console.log(cliok);
 
             //Crear Rom
             mjs = []
@@ -157,9 +117,6 @@ async function romAddMessage(msg) {
             }).catch(err => {
                 console.log('Error al crear rom');
             })
-
-
-
 
 
         } else {
@@ -209,25 +166,70 @@ async function romAddMessage(msg) {
 
         }
 
-    } else {
-        console.log('1. MENSAJE DE EJECUTIVO');
-
-        gestionaMensajeCrmChat(msg);
-    }
-
-
 }
 
-function getRoms() {
-    //Fecha Hoy
-    const today = moment(new Date).tz("America/Santiago")
-    const fechaHoy = today.format('YYYY-MM-DD')
-    return rom.find({ open: true, fecha: { $gte: fechaHoy } })
-}
 
-function gestionaMensajeCliente(){
+async function getDatosCliente(msg){
 
+    let cliok = {};
+
+    // Formato numero
+    let telefono = msg.author.replace('@c.us', '')
+
+    //Buscar cliente
+    let cli = await cliente.findOne({ 'telefonos.telefono': `+${telefono}` }, {
+        telefonos: {
+            $elemMatch: {
+                telefono: `+${telefono}`
+            }
+        }
+    });
+
+     // Formato numero
+     let telefono = msg.author.replace('@c.us', '')
+
+     //Buscar cliente
+     let cli = await cliente.findOne({ 'telefonos.telefono': `+${telefono}` }, {
+         telefonos: {
+             $elemMatch: {
+                 telefono: `+${telefono}`
+             }
+         }
+     })
+
+
+     if (!cli) {
+
+         console.log('No existe cliente asociado y asocia cliente nuevo');
+         cliok = {
+             rut: '',
+             nombre: clienteSinNombre,
+             apellido: '',
+             correos: '',
+             telefonos: '',
+             direcciones: '',
+             cod_region: '',
+             provincia: '',
+             ciudad: '',
+             clasificacionFinanciera: '',
+             tipoCartera: '',
+             clasificacion: '',
+             condicionPago: '',
+             credito: '',
+             creditoUtilizado: '',
+             formaPago: '',
+             giros: '',
+             segmento: '',
+             subSegmento: ''
+         }
+
+     } else {
+         console.log('Busca cliente por su Id');
+         cliok = await cliente.findById(cli._id)
+     }
+     return  cliok;
 }
+//-----------------------------------------------------------------------------------------
 
 async function gestionaMensajeCrmChat(msg){
 
