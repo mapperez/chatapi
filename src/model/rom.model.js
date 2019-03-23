@@ -5,6 +5,7 @@ const RomSchema = new Schema({
     chatId: { type: String },
     fecha: { type: Date },
     open: { type: Boolean, default: true },
+    bot: { type: Boolean, default: false },
     mensajes: { type: Schema.Types.Mixed },
     cliente: { type: Schema.Types.Mixed },
     estado: { type: String },

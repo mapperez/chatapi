@@ -210,59 +210,9 @@ async function romAddMessage(msg) {
         }
 
     } else {
-        // Notificar conectados
-        console.log('Mensaje Soporte');
+        console.log('1. MENSAJE DE EJECUTIVO');
 
-        let romUpdate = await rom.findOne({ chatId: msg.chatId, open: true,  
-            $or: [{
-            estado: "Espera"
-            }, {
-                estado: "Activa"
-            }]
-         });
-        console.log("ChatId WebHook: " + msg.chatId);
-        console.log("ChatId : " + romUpdate.chatId);
-        console.log("RomID : " + romUpdate._id);
-
-
-        if (romUpdate) {
-            // Rom existe y esta abierto
-            mjs = []
-            mjs = romUpdate.mensajes
-            mjs.push(msg)
-            romUpdate.mensajes = []
-            romUpdate.mensajes = mjs
-
-            let upRom = {
-                mensajes: mjs
-            }
-
-            rom.findOneAndUpdate({ _id: romUpdate._id }, upRom, { new: true, runValidators: true }, async(err, item) => {
-                if (err) {
-                    console.log(err);
-                }
-
-                console.log(`Se crea nuevo mensaje al Rom Id : ${item._id}`);
-                console.log('Emite rom vigentes a los clientes del chat');
-                let roms = await rom.find({ 
-                    open: true,
-                    $or: [{
-                        estado: "Espera"
-                    }, {
-                        estado: "Activa"
-                    }]
-                 }).sort({updatedAt: -1});
-                io.emit('sendClientMensaje', roms)
-
-            }).catch(err => {
-                console.log('Error el actualizar');
-            })
-
-
-        }
-
-
-
+        gestionaMensajeCrmChat(msg);
     }
 
 
@@ -274,6 +224,68 @@ function getRoms() {
     const fechaHoy = today.format('YYYY-MM-DD')
     return rom.find({ open: true, fecha: { $gte: fechaHoy } })
 }
+
+function gestionaMensajeCliente(){
+
+}
+
+async function gestionaMensajeCrmChat(msg){
+
+            // Notificar conectados
+            console.log('2. MENSAJE DE EJECUTIVO');
+
+            let romUpdate = await rom.findOne({ chatId: msg.chatId, open: true,  
+                $or: [{
+                estado: "Espera"
+                }, {
+                    estado: "Activa"
+                }]
+             });
+            console.log("ChatId WebHook: " + msg.chatId);
+            console.log("ChatId : " + romUpdate.chatId);
+            console.log("RomID : " + romUpdate._id);
+    
+    
+            if (romUpdate) {
+                // Rom existe y esta abierto
+                mjs = []
+                mjs = romUpdate.mensajes
+                mjs.push(msg)
+                romUpdate.mensajes = []
+                romUpdate.mensajes = mjs
+    
+                let upRom = {
+                    mensajes: mjs
+                }
+    
+                rom.findOneAndUpdate({ _id: romUpdate._id }, upRom, { new: true, runValidators: true }, async(err, item) => {
+                    if (err) {
+                        console.log(err);
+                    }
+    
+                    console.log(`Se crea nuevo mensaje al Rom Id : ${item._id}`);
+                    console.log('Emite rom vigentes a los clientes del chat');
+                    let roms = await rom.find({ 
+                        open: true,
+                        $or: [{
+                            estado: "Espera"
+                        }, {
+                            estado: "Activa"
+                        }]
+                     }).sort({updatedAt: -1});
+                    io.emit('sendClientMensaje', roms)
+    
+                }).catch(err => {
+                    console.log('Error el actualizar');
+                })
+    
+    
+            }
+    
+    
+
+}
+// ---------------------------------------------------------------------------------------
 
 
 module.exports = {
