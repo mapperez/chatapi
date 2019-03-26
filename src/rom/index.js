@@ -171,6 +171,17 @@ async function gestionaMensajeCliente(msg){
                     console.log(err);
                 }
 
+                    //VERIFICAMOS CONVERSACION CON EL BOTS
+                    let dataBots = {
+                        _id: item._id,
+                        mensaje: msg.body
+    
+                    }
+                    let respuestaBots = await procesaMensajeBots(dataBots);
+                    console.log(respuestaBots);
+                    
+
+
                 console.log(`Se crea nuevo mensaje al Rom Id : ${item._id}`);
                 console.log('Emite rom vigentes a los clientes del chat');
                 let roms = await rom.find({ 
