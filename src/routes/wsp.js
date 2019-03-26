@@ -18,7 +18,7 @@ app.use(cors())
 
 
 // End - Point WEBHOOK API WSP
-app.post("/api/wsp", async (req, res, next) => { {
+app.post("/api/wsp", async (req, res, next) =>  {
 
     try {
         console.log('===CAPTURA DE MENSAJES WEBHOOK=====');
