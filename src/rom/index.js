@@ -171,7 +171,13 @@ async function gestionaMensajeCliente(msg){
                     console.log(err);
                 }
 
+
                     //VERIFICAMOS CONVERSACION CON EL BOTS
+                    console.log(msg);
+                    console.log(upRom);
+
+                
+
                     let dataBots = {
                         _id: item._id,
                         mensaje: msg.body
@@ -179,7 +185,7 @@ async function gestionaMensajeCliente(msg){
                     }
                     let respuestaBots = await procesaMensajeBots(dataBots);
                     console.log(respuestaBots);
-                    
+
 
 
                 console.log(`Se crea nuevo mensaje al Rom Id : ${item._id}`);
