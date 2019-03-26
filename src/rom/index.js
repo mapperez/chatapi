@@ -50,14 +50,18 @@ async function romAddMessage(msg) {
 
 async function procesaMensajeBots(data){
 
-    if(data.type == "chat"){
-        let mensaje = data.mensaje
-        let sessionId = data._id
-        let respuesta = await mensajeABots(mensaje, sessionId)
-        return respuesta;
-    }else{
-        return  false;
-    }
+    console.log("Entra procesaMensajeBots");
+    console.log(data)
+    return true;
+
+    // if(data.type == "chat"){
+    //     let mensaje = data.mensaje
+    //     let sessionId = data._id
+    //     let respuesta = await mensajeABots(mensaje, sessionId)
+    //     return respuesta;
+    // }else{
+    //     return  false;
+    // }
 
 }
 
@@ -136,9 +140,9 @@ async function gestionaMensajeCliente(msg){
                     mensaje: msg.body,
                     type: msg.type
                 }
-                // let respuestaBots = await procesaMensajeBots(dataBots);
+                let respuestaBots = await procesaMensajeBots(dataBots);
 
-                let respuesta = await mensajeABots(msg.body, resp._id)
+            
              
 
                 console.log(respuesta)
