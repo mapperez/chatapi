@@ -176,20 +176,19 @@ async function gestionaMensajeCliente(msg){
                     console.log("##################################################");
 
                     console.log(msg);
+                    console.log(msg.body);
+
                     console.log("##################################################");
-
-                    
-                    console.log(upRom);
-
-                
-
-                    let dataBots = {
-                        _id: item._id,
-                        mensaje: msg.body
+                    const dataBots = {
+                        "_id"    : item._id,
+                        "mensaje": msg.body
     
                     }
-                    let respuestaBots = await procesaMensajeBots(dataBots);
-                    console.log(respuestaBots);
+                    console.log(dataBots);
+                    console.log("-------------------------------------------");
+
+                    // let respuestaBots = await procesaMensajeBots(dataBots);
+                    // console.log(respuestaBots);
 
 
 
