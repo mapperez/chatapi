@@ -25,7 +25,7 @@ app.post("/api/wsp", function (req, res) {
         const mensaje = req.body.messages[0];
         console.log(`CHAT ROM ID: ${ mensaje.chatId} `);
         console.log(mensaje)
-        romAddMessage(mensaje);
+        await romAddMessage(mensaje);
         res.send('ok');
     } catch (error) {
         res.send('ok');

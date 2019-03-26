@@ -6,7 +6,11 @@ const request = require("request");
 const rom = require('../model/rom.model')
 const chat = require('../model/chat.model')
 const cliente = require('../model/cliente.model')
+
+
+const bodyParser = require('body-parser')
 const { mensajeABots } = require('../dialogflow')
+app.use(bodyParser.json())
 
 
 // Url chat wsp
