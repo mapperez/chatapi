@@ -10,7 +10,7 @@ const cliente = require('../model/cliente.model')
 
 const bodyParser = require('body-parser')
 const { mensajeABots } = require('../dialogflow')
-app.use(bodyParser.json())
+
 
 
 // Url chat wsp
