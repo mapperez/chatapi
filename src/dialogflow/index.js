@@ -1,11 +1,9 @@
 const dialogflow = require('dialogflow');
 const uuid = require('uuid');
 
-/**
- * Send a query to the dialogflow agent, and return the query result.
- * @param {string} projectId The project to be used
- */
-async function runSample(projectId, mensaje, sessionId) {
+
+async function mensajeABots( mensaje, sessionId) {
+    const projectId = "agenteejemplo-67c1a";
 
     // Create a new session
     const sessionClient = new dialogflow.SessionsClient();
@@ -34,5 +32,5 @@ async function runSample(projectId, mensaje, sessionId) {
 
 
 module.exports = {
-    runSample
+    mensajeABots
 }

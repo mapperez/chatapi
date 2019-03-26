@@ -6,6 +6,8 @@ const request = require("request");
 const rom = require('../model/rom.model')
 const chat = require('../model/chat.model')
 const cliente = require('../model/cliente.model')
+const { mensajeABots } = require('../dialogflow')
+
 
 // Url chat wsp
 var urlGet = "https://eu23.chat-api.com/instance15824/message?token=f3slesivjyr2syj5";
@@ -43,6 +45,19 @@ async function romAddMessage(msg) {
         await gestionaMensajeCrmChat(msg);
     }
 
+
+}
+
+async function procesaMensajeBots(data){
+
+    if(msg.type == "chat"){
+        let mensaje = data.mensaje
+        let sessionId = data._id
+        let respuesta = await mensajeABots(mensaje, sessionId)
+        return respuesta;
+    }else{
+        return  false;
+    }
 
 }
 
@@ -113,6 +128,16 @@ async function gestionaMensajeCliente(msg){
                  }).sort({updatedAt: -1});
 
                 io.emit('sendClientNew', roms)
+
+
+                //VERIFICAMOS CONVERSACION CON EL BOTS
+                let dataBots = {
+                    _id:resp._id,
+                    mensaje: msg.body
+
+                }
+                let respuestaBots = await procesaMensajeBots(dataBots);
+                console.log(respuestaBots)
 
             }).catch(err => {
                 console.log('Error al crear rom');

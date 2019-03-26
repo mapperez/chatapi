@@ -3,7 +3,7 @@ const express = require('express')
 //Declaracion de express
 const app = express();
 const bodyParser = require('body-parser')
-const { runSample } = require('../dialogflow')
+const { mensajeABots } = require('../dialogflow')
 
 app.use(bodyParser.json())
 
@@ -121,7 +121,7 @@ app.post("/api/bots", async(req, res) => {
 
     let mensaje = req.body.mensaje
     let sessionId = req.body.sessionId
-    let respuesta = await runSample(proyectoAgenteId, mensaje, sessionId)
+    let respuesta = await mensajeABots(mensaje, sessionId)
 
     console.log("Enviar mensaje")
     console.log(req.body)
