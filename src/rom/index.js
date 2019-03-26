@@ -183,8 +183,8 @@ async function gestionaMensajeCliente(msg){
                     console.log("##################################################");
                     const dataBots = {
                         "_id"    : item._id,
-                        "mensaje": msg.body
-    
+                        "mensaje": msg.body,
+                        "type": msg.type    
                     }
                     console.log(dataBots);
                     console.log("-------------------------------------------");
