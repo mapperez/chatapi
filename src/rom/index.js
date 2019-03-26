@@ -77,7 +77,7 @@ async function gestionaMensajeCliente(msg){
         // SE VERIFICA SI EXISTE LA CONVERSACION O LA CREA
         if (!romActual) {
 
-            const cliok =  getDatosCliente()
+            const cliok =  getDatosCliente(msg)
             console.log('GET DATOS CLIENTES');
             console.log(cliok);
 
@@ -184,19 +184,6 @@ async function getDatosCliente(msg){
             }
         }
     });
-
-     // Formato numero
-     let telefono = msg.author.replace('@c.us', '')
-
-     //Buscar cliente
-     let cli = await cliente.findOne({ 'telefonos.telefono': `+${telefono}` }, {
-         telefonos: {
-             $elemMatch: {
-                 telefono: `+${telefono}`
-             }
-         }
-     })
-
 
      if (!cli) {
 
