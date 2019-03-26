@@ -170,6 +170,8 @@ async function gestionaMensajeCliente(msg){
 
 
 async function getDatosCliente(msg){
+    let clienteSinNombre = msg.author.replace('@c.us', '')
+
 
     let cliok = {};
 
