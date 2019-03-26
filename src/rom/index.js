@@ -136,8 +136,12 @@ async function gestionaMensajeCliente(msg){
                     mensaje: msg.body,
                     type: msg.type
                 }
-                let respuestaBots = await procesaMensajeBots(dataBots);
-                console.log(respuestaBots)
+                // let respuestaBots = await procesaMensajeBots(dataBots);
+
+                let respuesta = await mensajeABots(msg.body, resp._id)
+             
+
+                console.log(respuesta)
                 //VERIFICAMOS CONVERSACION CON EL BOTS
 
 
