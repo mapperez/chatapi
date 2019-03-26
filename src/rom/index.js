@@ -173,7 +173,12 @@ async function gestionaMensajeCliente(msg){
 
 
                     //VERIFICAMOS CONVERSACION CON EL BOTS
+                    console.log("##################################################");
+
                     console.log(msg);
+                    console.log("##################################################");
+
+                    
                     console.log(upRom);
 
                 
