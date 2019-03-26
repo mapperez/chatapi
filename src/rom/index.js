@@ -50,7 +50,7 @@ async function romAddMessage(msg) {
 
 async function procesaMensajeBots(data){
 
-    if(msg.type == "chat"){
+    if(data.type == "chat"){
         let mensaje = data.mensaje
         let sessionId = data._id
         let respuesta = await mensajeABots(mensaje, sessionId)
@@ -133,11 +133,13 @@ async function gestionaMensajeCliente(msg){
                 //VERIFICAMOS CONVERSACION CON EL BOTS
                 let dataBots = {
                     _id:resp._id,
-                    mensaje: msg.body
-
+                    mensaje: msg.body,
+                    type: msg.type
                 }
                 let respuestaBots = await procesaMensajeBots(dataBots);
                 console.log(respuestaBots)
+                //VERIFICAMOS CONVERSACION CON EL BOTS
+
 
             }).catch(err => {
                 console.log('Error al crear rom');
@@ -187,8 +189,8 @@ async function gestionaMensajeCliente(msg){
                     console.log(dataBots);
                     console.log("-------------------------------------------");
 
-                    // let respuestaBots = await procesaMensajeBots(dataBots);
-                    // console.log(respuestaBots);
+                    let respuestaBots = await procesaMensajeBots(dataBots);
+                    console.log(respuestaBots);
 
 
 
