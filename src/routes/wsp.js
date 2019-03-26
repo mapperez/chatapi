@@ -18,19 +18,16 @@ app.use(cors())
 
 
 // End - Point WEBHOOK API WSP
-app.post("/api/wsp", async (req, res, next) =>  {
+app.post("/api/wsp", async(req, res) => {
 
-    try {
+   
         console.log('===CAPTURA DE MENSAJES WEBHOOK=====');
         const mensaje = req.body.messages[0];
         console.log(`CHAT ROM ID: ${ mensaje.chatId} `);
         console.log(mensaje)
         await romAddMessage(mensaje);
         res.send('ok');
-    } catch (error) {
-        res.send('ok');
-    }
-
+  
 });
 
 
