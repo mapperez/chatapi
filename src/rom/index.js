@@ -52,7 +52,12 @@ async function procesaMensajeBots(data){
 
     console.log("Entra procesaMensajeBots");
     console.log(data)
-    return true;
+  
+
+    let mensaje = data.mensaje
+        let sessionId = data._id
+        let respuesta = await mensajeABots(mensaje, sessionId)
+        return respuesta;
 
     // if(data.type == "chat"){
     //     let mensaje = data.mensaje
@@ -334,5 +339,6 @@ async function gestionaMensajeCrmChat(msg){
 
 module.exports = {
     romAddMessage,
-    SendMensajesClientesWsp
+    SendMensajesClientesWsp,
+    procesaMensajeBots
 }
