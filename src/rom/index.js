@@ -37,10 +37,10 @@ async function romAddMessage(msg) {
     // Mensajes del cliente
     if (msg.fromMe == false) {
         console.log('1. MENSAJE DE CLIENTE');
-        gestionaMensajeCliente(msg);
+        await gestionaMensajeCliente(msg);
     } else {
         console.log('1. MENSAJE DE EJECUTIVO');
-        gestionaMensajeCrmChat(msg);
+        await gestionaMensajeCrmChat(msg);
     }
 
 
@@ -77,7 +77,7 @@ async function gestionaMensajeCliente(msg){
         // SE VERIFICA SI EXISTE LA CONVERSACION O LA CREA
         if (!romActual) {
 
-            const cliok =  getDatosCliente(msg)
+            const cliok =  await getDatosCliente(msg)
             console.log('GET DATOS CLIENTES');
             console.log(cliok);
 
@@ -266,12 +266,9 @@ async function gestionaMensajeCrmChat(msg){
     
                 }).catch(err => {
                     console.log('Error el actualizar');
-                })
+                }) 
     
-    
-            }
-    
-    
+            }    
 
 }
 // ---------------------------------------------------------------------------------------
