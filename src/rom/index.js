@@ -44,6 +44,26 @@ async function romAddMessage(msg) {
     if (msg.fromMe == false) {
         console.log('1. MENSAJE DE CLIENTE');
         await gestionaMensajeCliente(msg);
+
+          //VERIFICAMOS CONVERSACION CON EL BOTS
+          console.log("##################################################");
+
+          console.log(msg);
+          console.log(msg.body);
+
+          console.log("##################################################");
+          const dataBots = {
+              "_id"    : "1212",
+              "mensaje": msg.body,
+              "type": msg.type    
+          }
+          console.log(dataBots);
+          console.log("-------------------------------------------");
+
+          let respuestaBots = await procesaMensajeBots(dataBots);
+          console.log(respuestaBots);
+
+
     } else {
         console.log('1. MENSAJE DE EJECUTIVO');
         await gestionaMensajeCrmChat(msg);
@@ -191,23 +211,7 @@ async function gestionaMensajeCliente(msg){
                 }
 
 
-                    //VERIFICAMOS CONVERSACION CON EL BOTS
-                    console.log("##################################################");
-
-                    console.log(msg);
-                    console.log(msg.body);
-
-                    console.log("##################################################");
-                    const dataBots = {
-                        "_id"    : item._id,
-                        "mensaje": msg.body,
-                        "type": msg.type    
-                    }
-                    console.log(dataBots);
-                    console.log("-------------------------------------------");
-
-                    let respuestaBots = await procesaMensajeBots(dataBots);
-                    console.log(respuestaBots);
+                  
 
 
 
