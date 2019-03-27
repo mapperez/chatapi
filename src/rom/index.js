@@ -215,8 +215,6 @@ async function gestionaMensajeCliente(msg){
                 }]
                 }).sort({updatedAt: -1});
             io.emit('sendClientMensaje', roms)
-
-
         //   let resultado =  rom.findOneAndUpdate({ _id: romActual._id }, upRom, { new: true, runValidators: true }, async(err, item) => {
         //         if (err) {
         //             console.log(err);
@@ -242,6 +240,7 @@ async function gestionaMensajeCliente(msg){
 
             // console.log(resultado);
             console.log("LLEGA AL FINAL DEL CODIGO DE findOneAndUpdate")
+            return  resUpdateMensajes
 
 
 
