@@ -47,7 +47,7 @@ async function romAddMessage(msg) {
 
           console.log("##################################################");
           console.log("RESULTADO DE GESTIONA MENSAJE CLIENTE");
-        console.log(resultado);
+     
           console.log("##################################################");
 
 
@@ -224,7 +224,7 @@ async function gestionaMensajeCliente(msg){
             // console.log(resultado);
             console.log("LLEGA AL FINAL DEL CODIGO DE findOneAndUpdate")
 
-            console.log(msg)
+            console.log(mensajeActual)
            
             return  resUpdateMensajes
 
