@@ -186,6 +186,10 @@ async function gestionaMensajeCliente(msg){
             console.log("ChatId : " + romActual.chatId);
             console.log("RomID : " + romActual._id);
 
+            let mensajeActual = msg;
+
+         
+
             // Rom existe y esta abierto
             mjs = []
             mjs = romActual.mensajes
@@ -201,7 +205,7 @@ async function gestionaMensajeCliente(msg){
             console.log(`findOneAndUpdate ID: ${romActual._id}`);
             let resUpdateMensajes = await rom.findOneAndUpdate({_id: romActual._id}, upRom, {new: true, runValidators: true});
 
-            console.log(resUpdateMensajes)
+          
            
             // RESCATAMOS LAS CONVERSACIONES
             console.log(`Se crea nuevo mensaje al Rom Id : ${resUpdateMensajes._id}`);
@@ -219,6 +223,9 @@ async function gestionaMensajeCliente(msg){
 
             // console.log(resultado);
             console.log("LLEGA AL FINAL DEL CODIGO DE findOneAndUpdate")
+
+            console.log(msg)
+           
             return  resUpdateMensajes
 
 
