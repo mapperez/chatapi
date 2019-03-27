@@ -43,25 +43,31 @@ async function romAddMessage(msg) {
     // Mensajes del cliente
     if (msg.fromMe == false) {
         console.log('1. MENSAJE DE CLIENTE');
-        await gestionaMensajeCliente(msg);
-
-          //VERIFICAMOS CONVERSACION CON EL BOTS
-          console.log("##################################################");
-
-          console.log(msg);
-          console.log(msg.body);
+       let resultado = await gestionaMensajeCliente(msg);
 
           console.log("##################################################");
-          const dataBots = {
-              "_id"    : "1212",
-              "mensaje": msg.body,
-              "type": msg.type    
-          }
-          console.log(dataBots);
-          console.log("-------------------------------------------");
+          console.log("RESULTADO DE GESTIONA MENSAJE CLIENTE");
+        console.log(resultado);
+          console.log("##################################################");
 
-          let respuestaBots = await procesaMensajeBots(dataBots);
-          console.log(respuestaBots);
+
+        //   //VERIFICAMOS CONVERSACION CON EL BOTS
+        //   console.log("##################################################");
+
+        //   console.log(msg);
+        //   console.log(msg.body);
+
+        //   console.log("##################################################");
+        //   const dataBots = {
+        //       "_id"    : "1212",
+        //       "mensaje": msg.body,
+        //       "type": msg.type    
+        //   }
+        //   console.log(dataBots);
+        //   console.log("-------------------------------------------");
+
+        //   let respuestaBots = await procesaMensajeBots(dataBots);
+        //   console.log(respuestaBots);
 
 
     } else {
@@ -120,6 +126,8 @@ async function gestionaMensajeCliente(msg){
 
         console.log("ROM ACTUAL")
         console.log(romActual);
+        console.log("-------------------------------------------");
+
 
 
         // SE VERIFICA SI EXISTE LA CONVERSACION O LA CREA
@@ -163,19 +171,7 @@ async function gestionaMensajeCliente(msg){
                 io.emit('sendClientNew', roms)
 
 
-                //VERIFICAMOS CONVERSACION CON EL BOTS
-                let dataBots = {
-                    _id:resp._id,
-                    mensaje: msg.body,
-                    type: msg.type
-                }
-                let respuestaBots = await procesaMensajeBots(dataBots);
-
             
-             
-
-                console.log(respuesta)
-                //VERIFICAMOS CONVERSACION CON EL BOTS
 
 
             }).catch(err => {
@@ -205,15 +201,10 @@ async function gestionaMensajeCliente(msg){
 
             console.log(`findOneAndUpdate ID: ${romActual._id}`);
 
-            rom.findOneAndUpdate({ _id: romActual._id }, upRom, { new: true, runValidators: true }, async(err, item) => {
+          let resultado =  rom.findOneAndUpdate({ _id: romActual._id }, upRom, { new: true, runValidators: true }, async(err, item) => {
                 if (err) {
                     console.log(err);
                 }
-
-
-                  
-
-
 
                 console.log(`Se crea nuevo mensaje al Rom Id : ${item._id}`);
                 console.log('Emite rom vigentes a los clientes del chat');
@@ -227,9 +218,14 @@ async function gestionaMensajeCliente(msg){
                  }).sort({updatedAt: -1});
                 io.emit('sendClientMensaje', roms)
 
+                return  item;
+
             }).catch(err => {
                 console.log('Error el actualizar');
             })
+
+            console.log(resultado);
+            console.log("LLEGA AL FINAL DEL CODIGO DE findOneAndUpdate")
 
 
 
