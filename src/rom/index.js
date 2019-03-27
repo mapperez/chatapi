@@ -193,38 +193,54 @@ async function gestionaMensajeCliente(msg){
             romActual.mensajes = []
             romActual.mensajes = mjs
 
-            let upRom = {
-            
+            let upRom = {            
                 mensajes: mjs
             }
 
-
+            // ACTUALIZAMOS MENSAJES
             console.log(`findOneAndUpdate ID: ${romActual._id}`);
+            let resUpdateMensajes = await rom.findOneAndUpdate({_id: romActual._id}, upRom, {new: true, runValidators: true});
 
-          let resultado =  rom.findOneAndUpdate({ _id: romActual._id }, upRom, { new: true, runValidators: true }, async(err, item) => {
-                if (err) {
-                    console.log(err);
-                }
+            console.log(resUpdateMensajes)
+           
+            // RESCATAMOS LAS CONVERSACIONES
+            console.log(`Se crea nuevo mensaje al Rom Id : ${resUpdateMensajes._id}`);
+            console.log('Emite rom vigentes a los clientes del chat');
+            let roms = await rom.find({ 
+                open: true,
+                $or: [{
+                    estado: "Espera"
+                }, {
+                    estado: "Activa"
+                }]
+                }).sort({updatedAt: -1});
+            io.emit('sendClientMensaje', roms)
 
-                console.log(`Se crea nuevo mensaje al Rom Id : ${item._id}`);
-                console.log('Emite rom vigentes a los clientes del chat');
-                let roms = await rom.find({ 
-                    open: true,
-                    $or: [{
-                        estado: "Espera"
-                    }, {
-                        estado: "Activa"
-                    }]
-                 }).sort({updatedAt: -1});
-                io.emit('sendClientMensaje', roms)
 
-                return  item;
+        //   let resultado =  rom.findOneAndUpdate({ _id: romActual._id }, upRom, { new: true, runValidators: true }, async(err, item) => {
+        //         if (err) {
+        //             console.log(err);
+        //         }
 
-            }).catch(err => {
-                console.log('Error el actualizar');
-            })
+        //         console.log(`Se crea nuevo mensaje al Rom Id : ${item._id}`);
+        //         console.log('Emite rom vigentes a los clientes del chat');
+        //         let roms = await rom.find({ 
+        //             open: true,
+        //             $or: [{
+        //                 estado: "Espera"
+        //             }, {
+        //                 estado: "Activa"
+        //             }]
+        //          }).sort({updatedAt: -1});
+        //         io.emit('sendClientMensaje', roms)
 
-            console.log(resultado);
+        //         return  item;
+
+        //     }).catch(err => {
+        //         console.log('Error el actualizar');
+        //     })
+
+            // console.log(resultado);
             console.log("LLEGA AL FINAL DEL CODIGO DE findOneAndUpdate")
 
 
