@@ -25,10 +25,11 @@ async function SendMensajesClientesWsp(data) {
 
     if( typeof data.type !="undefined"){
 
-        console.log(data.type);
-
         url = urlChatApiArchivo;
-        
+        console.log(url);
+        console.log(data);
+
+
     }else{
         url = urlChatApiTexto;
     }
@@ -39,6 +40,10 @@ async function SendMensajesClientesWsp(data) {
             json: data
         },
         function (error, response, body) {
+            console.log(error);
+            console.log(response);
+
+
             if (error) return console.error("HTTP Error", error);
            
         }
