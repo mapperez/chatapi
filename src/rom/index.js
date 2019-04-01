@@ -31,7 +31,7 @@ async function SendMensajesClientesWsp(data) {
         },
         function (error, response, body) {
             if (error) return console.error("HTTP Error", error);
-            console.log(data);
+           
         }
     );
 
