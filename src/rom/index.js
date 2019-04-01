@@ -53,13 +53,13 @@ async function romAddMessage(msg) {
 
         console.log('2. BOTS PROCESA MENSAJE DE CLIENTE');
 
-          const dataBots = {
-              "_id"    : resultado.rom._id,
-              "mensaje": resultado.ultimoMensaje,             
-          }
-          console.log(dataBots); 
-          let respuestaBots = await procesaMensajeBots(dataBots);
-          console.log(respuestaBots);
+        //   const dataBots = {
+        //       "_id"    : resultado.rom._id,
+        //       "mensaje": resultado.ultimoMensaje,             
+        //   }
+        //   console.log(dataBots); 
+        //   let respuestaBots = await procesaMensajeBots(dataBots);
+        //   console.log(respuestaBots);
 
 
     } else {

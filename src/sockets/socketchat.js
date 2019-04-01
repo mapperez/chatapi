@@ -23,7 +23,10 @@ io.on('connection', async(client) => {
     })
     
     client.on('sendClienteWsp', (data, callback) => {
+        console.log("--------------- websocket -------------------");
         SendMensajesClientesWsp(data)
+        console.log("--------------- end websocket -------------------");
+
     })
 
 })
