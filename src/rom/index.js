@@ -21,6 +21,7 @@ const {
 var urlGet = "https://eu23.chat-api.com/instance15824/message?token=f3slesivjyr2syj5";
 
 
+//
 async function SendMensajesClientesWsp(data) {
 
     request({
@@ -74,17 +75,21 @@ async function procesaMensajeBots(data) {
     console.log("Entra procesaMensajeBots");
     console.log(data)
 
+    let mensaje = data.mensaje.body
+    let sessionId = data._id
+    let respuesta = await mensajeABots(mensaje, sessionId)
 
-    if(data.mensaje.type == "chat"){
-        let mensaje = data.mensaje.body
-        let sessionId = data._id
-        let respuesta = await mensajeABots(mensaje, sessionId)
 
-        console.log(respuesta)
-        return true;
-    }else{
-        return  false;
-    }
+    // if(data.mensaje.type == "chat"){
+    //     let mensaje = data.mensaje.body
+    //     let sessionId = data._id
+    //     let respuesta = await mensajeABots(mensaje, sessionId)
+
+    //     console.log(respuesta)
+    //     return true;
+    // }else{
+    //     return  false;
+    // }
 
 }
 

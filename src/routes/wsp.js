@@ -19,15 +19,18 @@ app.use(cors())
 
 // End - Point WEBHOOK API WSP
 app.post("/api/wsp", (req, res) => {
+ console.log("-----------------------")
 
-   
+ console.log(req.body.messages)
+ console.log("-----------------------")
+
+    
         console.log('===CAPTURA DE MENSAJES WEBHOOK=====');
         const mensaje = req.body.messages[0];
         console.log(`CHAT ROM ID: ${ mensaje.chatId} `);
         console.log(mensaje)
          romAddMessage(mensaje);
-        res.send('ok');
-  
+        res.send('ok');  
 });
 
 
@@ -218,6 +221,41 @@ app.get('/api/getCliente', async (req, res, next) => {
       next(e) 
     }
   })
+
+app.post('/api/subirArchivo', async (req, res, next) => {
+    console.log("entro");
+    const form = req.body;
+
+    console.log(form);
+    try {
+        respuesta = {
+            error: false,
+            msg : "La imagen se esta cargando en segundo plano"
+        }
+        res.json(respuesta);
+        
+    //     const chatId = req.param('chatId');
+    //     const telefono = chatId.replace('@c.us', '')
+
+
+
+    //   const dataCliente = await  cliente.findOne({ 'telefonos.telefono': `+${telefono}` }, {
+    //                 //  telefonos: {
+    //                 //      $elemMatch: {
+    //                 //          telefono: `+${telefono}`
+    //                 //      }
+    //                 //  }
+    //              })
+
+              
+    //             //  console.log(dataCliente)
+     
+
+    } catch (e) {     
+      next(e) 
+    }
+
+  });
 
 
 module.exports = app;

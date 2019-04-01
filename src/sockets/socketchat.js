@@ -21,6 +21,7 @@ io.on('connection', async(client) => {
     client.on('sendClientMensaje', (data, callback) => {
         client.broadcast.emit('sendClientMensaje', data);
     })
+    
     client.on('sendClienteWsp', (data, callback) => {
         SendMensajesClientesWsp(data)
     })
