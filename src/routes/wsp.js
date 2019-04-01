@@ -25,7 +25,7 @@ app.post("/api/wsp", (req, res) => {
     // VALIDAMOS SI ES NOTIFICACION DE  ENVIO Y RECEPCION DEL MENSAJE     
     if(typeof req.body.ack != "undefined"){
         console.log("-----------------------")
-        console.log(req.body.ack)
+        const  resultado = req.body.ack[0];       
         console.log("-----------------------")
 
     }else{
