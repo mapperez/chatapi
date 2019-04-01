@@ -29,11 +29,12 @@ app.post("/api/wsp", (req, res) => {
         console.log("-----------------------")
 
     }else{
+        console.log(req.body)
+
         const mensaje = req.body.messages[0];
         console.log(`CHAT ROM ID: ${ mensaje.chatId} `);
         console.log("----- mensajes ------------------")
 
-        console.log(mensaje)
         console.log("-----------------------")
          romAddMessage(mensaje);
         res.send('ok');  
