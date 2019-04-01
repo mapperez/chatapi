@@ -21,7 +21,7 @@ app.use(cors())
 app.post("/api/wsp", (req, res) => {
  console.log("-----------------------")
 
- console.log(req.body.messages)
+ console.log(req.body)
  console.log("-----------------------")
 
     
