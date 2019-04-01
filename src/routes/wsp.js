@@ -19,12 +19,16 @@ app.use(cors())
 
 // End - Point WEBHOOK API WSP
 app.post("/api/wsp", (req, res) => {
- console.log("-----------------------")
- console.log(req.body)
- console.log("-----------------------")
 
-    
-        console.log('===CAPTURA DE MENSAJES WEBHOOK=====');
+    console.log('===CAPTURA DE MENSAJES WEBHOOK=====');
+
+    // VALIDAMOS SI ES NOTIFICACION DE  ENVIO Y RECEPCION DEL MENSAJE     
+    if(typeof req.body.ack != "undefined"){
+        console.log("-----------------------")
+        console.log(req.body.ack)
+        console.log("-----------------------")
+
+    }else{
         const mensaje = req.body.messages[0];
         console.log(`CHAT ROM ID: ${ mensaje.chatId} `);
         console.log("----- mensajes ------------------")
@@ -33,6 +37,12 @@ app.post("/api/wsp", (req, res) => {
         console.log("-----------------------")
          romAddMessage(mensaje);
         res.send('ok');  
+
+    }
+
+
+    
+
 });
 
 
