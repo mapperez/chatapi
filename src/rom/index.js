@@ -9,23 +9,28 @@ const rom = require('../model/rom.model')
 const chat = require('../model/chat.model')
 const cliente = require('../model/cliente.model')
 
-
 const bodyParser = require('body-parser')
 const {
     mensajeABots
 } = require('../dialogflow')
 
-
-
 // Url chat wsp
-var urlGet = "https://eu23.chat-api.com/instance15824/message?token=f3slesivjyr2syj5";
+const urlChatApiArchivo = "https://eu23.chat-api.com/instance15824/sendFile?token=f3slesivjyr2syj5";
+const urlChatApiTexto = "https://eu23.chat-api.com/instance15824/message?token=f3slesivjyr2syj5";
 
 
-//
-async function SendMensajesClientesWsp(data) {
+// ENVIA MENSAJES A LA API DE WHATSAPP VIA POST
+async function SendMensajesClientesWsp(data) {  
+    url = "";
+
+    if( typeof data.type !="undefined"){
+        url = urlChatApiArchivo;
+    }else{
+        url = urlChatApiTexto;
+    }
 
     request({
-            url: urlGet,
+            url: url,
             method: "POST",
             json: data
         },
@@ -34,9 +39,9 @@ async function SendMensajesClientesWsp(data) {
            
         }
     );
-
-
 }
+
+
 
 async function romAddMessage(msg) {
     console.log(msg);
