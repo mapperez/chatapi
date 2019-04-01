@@ -28,6 +28,10 @@ app.post("/api/wsp", (req, res) => {
         const  resultado = req.body.ack[0];       
         console.log("-----------------------")
 
+    }else if(typeof req.body.type != "undefined"){
+        console.log("cuando se envia un archivo entra aca")
+     
+
     }else{
         console.log(req.body)
 
